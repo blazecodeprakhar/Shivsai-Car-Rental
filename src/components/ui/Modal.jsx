@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { X } from 'lucide-react'
 import { useEffect } from 'react'
 
-export default function Modal({ open, onClose, children, maxWidth = 'max-w-2xl', labelledBy }) {
+export default function Modal({ open, onClose, children, maxWidth = 'max-w-2xl', labelledBy, closeTheme = 'dark' }) {
   useEffect(() => {
     if (!open) return
     const onKey = (e) => e.key === 'Escape' && onClose()
@@ -22,7 +22,7 @@ export default function Modal({ open, onClose, children, maxWidth = 'max-w-2xl',
           aria-modal="true"
           aria-labelledby={labelledBy}
         >
-          <div className="absolute inset-0 bg-ink-950/70 backdrop-blur-md" onClick={onClose} />
+          <div className="absolute inset-0 bg-ink-950/75 backdrop-blur-md" onClick={onClose} />
           <motion.div
             initial={{ y: 60, opacity: 0, scale: 0.97 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -32,10 +32,15 @@ export default function Modal({ open, onClose, children, maxWidth = 'max-w-2xl',
           >
             <button
               onClick={onClose}
+              id="modal-close-btn"
               aria-label="Close"
-              className="absolute top-4 right-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-ink-900/5 text-ink-900 transition hover:rotate-90 hover:bg-ink-900 hover:text-white"
+              className={`absolute top-4 right-4 z-30 grid h-10 w-10 place-items-center rounded-full border transition-all duration-300 hover:rotate-90 hover:scale-105 shadow-md ${
+                closeTheme === 'dark'
+                  ? 'border-white/30 bg-ink-900/90 text-white hover:bg-white hover:text-ink-950 backdrop-blur-md ring-2 ring-white/20'
+                  : 'border-ink-900/15 bg-white text-ink-900 hover:bg-ink-900 hover:text-white ring-2 ring-black/5'
+              }`}
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" strokeWidth={2.5} />
             </button>
             {children}
           </motion.div>

@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
-import { Calendar, User, Phone, MapPin, Navigation, Users, Check, PhoneCall, Car } from 'lucide-react'
-import { useState } from 'react'
+import { Calendar, User, Phone, MapPin, Navigation, Users, Check, PhoneCall, Car, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useState, useRef } from 'react'
 import Modal from '../ui/Modal'
 import { Field, CityInput, nowLocal, formatDateTime } from './Fields'
 import { WhatsAppIcon } from '../ui/BrandIcons'
@@ -11,7 +11,7 @@ import { site, whatsappLink } from '../../data/site'
 export default function BookingModal() {
   const { booking, closeBooking } = useUI()
   return (
-    <Modal open={booking !== null} onClose={closeBooking} labelledBy="booking-title" maxWidth="max-w-3xl">
+    <Modal open={booking !== null} onClose={closeBooking} labelledBy="booking-title" maxWidth="max-w-3xl" closeTheme="dark">
       {booking && <BookingForm key={JSON.stringify(booking)} prefill={booking} />}
     </Modal>
   )
@@ -35,6 +35,42 @@ function BookingForm({ prefill }) {
     setForm((f) => ({ ...f, [k]: v }))
     setErrors((e) => ({ ...e, [k]: undefined }))
   }
+
+  const carScrollRef = useRef(null)
+  const isDraggingRef = useRef(false)
+  const dragStartXRef = useRef(0)
+  const scrollLeftRef = useRef(0)
+  const hasMovedRef = useRef(false)
+
+  const scrollCars = (direction) => {
+    if (!carScrollRef.current) return
+    const scrollAmount = direction === 'left' ? -340 : 340
+    carScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+  }
+
+  const handleMouseDown = (e) => {
+    if (!carScrollRef.current) return
+    isDraggingRef.current = true
+    hasMovedRef.current = false
+    dragStartXRef.current = e.pageX - carScrollRef.current.offsetLeft
+    scrollLeftRef.current = carScrollRef.current.scrollLeft
+  }
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current || !carScrollRef.current) return
+    e.preventDefault()
+    const x = e.pageX - carScrollRef.current.offsetLeft
+    const walk = (x - dragStartXRef.current) * 1.5
+    if (Math.abs(walk) > 4) {
+      hasMovedRef.current = true
+    }
+    carScrollRef.current.scrollLeft = scrollLeftRef.current - walk
+  }
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false
+  }
+
   const needsDrop = ['oneway', 'round', 'road'].includes(form.trip)
   const tripLabel = TRIP_TYPES.find((t) => t.id === form.trip)?.label
   const car = FLEET.find((c) => c.id === form.car) || FLEET[0]
@@ -136,42 +172,103 @@ function BookingForm({ prefill }) {
         {/* Car picker */}
         <div>
           <div className="flex items-center justify-between mb-2 pl-1">
-            <p className="field-label">Select vehicle ({FLEET.length} available)</p>
-            <span className="text-xs text-brand-600 font-semibold">Real photos & fixed rates</span>
-          </div>
-          <div className="no-scrollbar -mx-6 flex snap-x gap-3 overflow-x-auto px-6 pb-2 sm:-mx-8 sm:px-8">
-            {FLEET.map((c) => {
-              const active = form.car === c.id
-              return (
+            <div className="flex items-center gap-2">
+              <p className="field-label mb-0">Select vehicle ({FLEET.length} available)</p>
+              <span className="hidden sm:inline-block text-[11px] font-medium text-ink-900/40">· Drag or use arrows</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-block text-xs text-brand-600 font-semibold">Real photos & fixed rates</span>
+              <div className="flex items-center gap-1">
                 <button
                   type="button"
-                  key={c.id}
-                  onClick={() => set('car')(c.id)}
-                  className={`relative w-44 shrink-0 snap-start rounded-2xl border-2 p-2.5 text-left transition-all duration-300 ${
-                    active ? 'border-brand-500 bg-brand-50/60 shadow-lg shadow-brand-500/20' : 'border-ink-900/10 hover:border-ink-900/25 bg-white'
-                  }`}
+                  onClick={() => scrollCars('left')}
+                  id="car-scroll-left"
+                  aria-label="Previous cars"
+                  className="grid h-7 w-7 place-items-center rounded-full border border-ink-900/15 bg-white text-ink-900 shadow-xs hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600 transition-all active:scale-90"
                 >
-                  {active && (
-                    <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute top-2 right-2 z-10 grid h-5 w-5 place-items-center rounded-full bg-brand-500 text-white shadow-sm">
-                      <Check className="h-3 w-3" strokeWidth={3} />
-                    </motion.span>
-                  )}
-                  <div className="h-20 w-full overflow-hidden rounded-xl bg-surface">
-                    <img
-                      src={c.image}
-                      alt={c.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                  <span className="mt-2 block text-xs font-bold text-ink-900 truncate" title={`${c.name} (${c.variant})`}>{c.name} <span className="text-amber-800 font-semibold">({c.variant})</span></span>
-                  <div className="mt-0.5 flex items-baseline justify-between">
-                    <span className="text-xs font-extrabold text-ink-950">{c.priceDisplay.split(' ')[0]}</span>
-                    <span className="text-[10px] font-medium text-ink-900/60">{c.seats} seats</span>
-                  </div>
+                  <ChevronLeft className="h-4 w-4" />
                 </button>
-              )
-            })}
+                <button
+                  type="button"
+                  onClick={() => scrollCars('right')}
+                  id="car-scroll-right"
+                  aria-label="Next cars"
+                  className="grid h-7 w-7 place-items-center rounded-full border border-ink-900/15 bg-white text-ink-900 shadow-xs hover:border-brand-500 hover:bg-brand-50 hover:text-brand-600 transition-all active:scale-90"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative group/cars">
+            {/* Floating Left Button */}
+            <button
+              type="button"
+              onClick={() => scrollCars('left')}
+              aria-label="Scroll left"
+              className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 hidden sm:grid h-9 w-9 place-items-center rounded-full border border-ink-900/15 bg-white/95 text-ink-900 shadow-lg backdrop-blur-sm transition-all hover:scale-110 hover:border-brand-500 hover:bg-brand-500 hover:text-ink-950 active:scale-90"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            {/* Floating Right Button */}
+            <button
+              type="button"
+              onClick={() => scrollCars('right')}
+              aria-label="Scroll right"
+              className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 hidden sm:grid h-9 w-9 place-items-center rounded-full border border-ink-900/15 bg-white/95 text-ink-900 shadow-lg backdrop-blur-sm transition-all hover:scale-110 hover:border-brand-500 hover:bg-brand-500 hover:text-ink-950 active:scale-90"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Draggable Carousel Track */}
+            <div
+              ref={carScrollRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              className="no-scrollbar -mx-6 flex snap-x gap-3 overflow-x-auto px-6 pb-2 sm:-mx-8 sm:px-8 cursor-grab active:cursor-grabbing select-none"
+            >
+              {FLEET.map((c) => {
+                const active = form.car === c.id
+                return (
+                  <button
+                    type="button"
+                    key={c.id}
+                    onClick={() => {
+                      if (hasMovedRef.current) return
+                      set('car')(c.id)
+                    }}
+                    className={`relative w-44 shrink-0 snap-start rounded-2xl border-2 p-2.5 text-left transition-all duration-300 select-none ${
+                      active ? 'border-brand-500 bg-brand-50/60 shadow-lg shadow-brand-500/20' : 'border-ink-900/10 hover:border-ink-900/25 bg-white'
+                    }`}
+                  >
+                    {active && (
+                      <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute top-2 right-2 z-10 grid h-5 w-5 place-items-center rounded-full bg-brand-500 text-white shadow-sm pointer-events-none">
+                        <Check className="h-3 w-3" strokeWidth={3} />
+                      </motion.span>
+                    )}
+                    <div className="h-20 w-full overflow-hidden rounded-xl bg-surface select-none" onContextMenu={(e) => e.preventDefault()}>
+                      <img
+                        src={c.image}
+                        alt={c.name}
+                        loading="lazy"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="pointer-events-none h-full w-full object-cover object-center select-none"
+                      />
+                    </div>
+                    <span className="mt-2 block text-xs font-bold text-ink-900 truncate" title={`${c.name} (${c.variant})`}>{c.name} <span className="text-amber-800 font-semibold">({c.variant})</span></span>
+                    <div className="mt-0.5 flex items-baseline justify-between">
+                      <span className="text-xs font-extrabold text-ink-950">{c.priceDisplay.split(' ')[0]}</span>
+                      <span className="text-[10px] font-medium text-ink-900/60">{c.seats} seats</span>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
 

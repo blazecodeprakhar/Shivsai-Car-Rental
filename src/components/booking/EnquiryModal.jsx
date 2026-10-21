@@ -8,7 +8,7 @@ import { site, whatsappLink } from '../../data/site'
 export default function EnquiryModal() {
   const { enquiryOpen, closeEnquiry } = useUI()
   return (
-    <Modal open={enquiryOpen} onClose={closeEnquiry} labelledBy="enquiry-title" maxWidth="max-w-lg">
+    <Modal open={enquiryOpen} onClose={closeEnquiry} labelledBy="enquiry-title" maxWidth="max-w-lg" closeTheme="light">
       <EnquiryForm />
     </Modal>
   )
