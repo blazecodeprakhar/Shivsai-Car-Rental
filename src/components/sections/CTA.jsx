@@ -9,7 +9,7 @@ export default function CTA() {
     <section className="relative bg-white pb-20 sm:pb-28" aria-label="Book now">
       <div className="container-x">
         <Reveal scale={0.96} className="relative overflow-hidden rounded-[2.5rem] bg-ink-950 px-6 py-14 text-center sm:px-12 sm:py-20">
-          <img src="/cars_assets/creata---300000/img-1.webp" alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+          <img src="/cars_assets/creata---300000/img-1.webp" alt="" loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="absolute inset-0 h-full w-full object-cover opacity-20 pointer-events-none select-none" />
           <div className="absolute inset-0 bg-linear-to-t from-ink-950 via-ink-950/70 to-ink-950/40" />
           <div className="pointer-events-none absolute -bottom-24 left-1/2 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-brand-500/30 blur-[100px]" />
           <div className="relative mx-auto max-w-2xl">

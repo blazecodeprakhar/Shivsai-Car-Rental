@@ -10,7 +10,6 @@ import Cities from './components/sections/Cities'
 import Offers from './components/sections/Offers'
 import WhyUs from './components/sections/WhyUs'
 import PopularRoutes from './components/sections/PopularRoutes'
-import AppDownload from './components/sections/AppDownload'
 import Testimonials from './components/sections/Testimonials'
 import FAQ from './components/sections/FAQ'
 import CTA from './components/sections/CTA'
@@ -36,7 +35,6 @@ export default function App() {
           <PopularRoutes />
           <WhyUs />
           <Offers />
-          <AppDownload />
           <Testimonials />
           <FAQ />
           <CTA />

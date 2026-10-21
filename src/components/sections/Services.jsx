@@ -18,9 +18,9 @@ export default function Services() {
       <div className="container-x">
         <SectionHeading
           eyebrow="What we offer"
-          title="One app for"
+          title="Reliable cars for"
           highlight="every journey"
-          text="Affordable cab packages for local, outstation, and airport travel."
+          text="Affordable rental packages for local, outstation, and airport travel."
         />
 
         <motion.div

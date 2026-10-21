@@ -1,13 +1,12 @@
 import { motion } from 'motion/react'
-import { Star, MapPinned, Smile } from 'lucide-react'
+import { Star, ShieldCheck, Car, Smile } from 'lucide-react'
 import { Counter, staggerParent, staggerItem } from '../ui/Motion'
-import { GooglePlayIcon } from '../ui/BrandIcons'
 import { STATS } from '../../data/content'
 
 const icons = [
   <svg key="g" viewBox="0 0 24 24" className="h-6 w-6"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8" /><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24" /><path fill="#FBBC05" d="M5.3 14.3a7.200 7.200 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8z" /><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9" /></svg>,
-  <GooglePlayIcon key="p" className="h-6 w-6 text-emerald-500" />,
-  <MapPinned key="m" className="h-6 w-6 text-sky-500" />,
+  <ShieldCheck key="p" className="h-6 w-6 text-emerald-500" />,
+  <Car key="m" className="h-6 w-6 text-sky-500" />,
   <Smile key="s" className="h-6 w-6 text-brand-600" />,
 ]
 
@@ -32,9 +31,25 @@ export default function Stats() {
               <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
                 {icons[i]}
               </span>
-              {i < 2 && (
+              {i === 0 && (
                 <span className="flex gap-0.5 text-brand-500">
                   {Array.from({ length: 5 }).map((_, k) => <Star key={k} className="h-3 w-3 fill-current" />)}
+                </span>
+              )}
+              {i === 1 && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Guaranteed
+                </span>
+              )}
+              {i === 2 && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-bold text-sky-600">
+                  Top Condition
+                </span>
+              )}
+              {i === 3 && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-brand-500/10 px-2.5 py-0.5 text-[11px] font-bold text-brand-600">
+                  Trusted
                 </span>
               )}
             </div>

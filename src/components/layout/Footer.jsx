@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import { Phone, Mail, MapPin, Clock, ArrowRight, Send } from 'lucide-react'
 import { useState } from 'react'
 import Logo from '../ui/Logo'
-import { FacebookIcon, InstagramIcon, XIcon, YouTubeIcon, LinkedInIcon, GooglePlayIcon, AppleIcon } from '../ui/BrandIcons'
+import { FacebookIcon, InstagramIcon, XIcon, YouTubeIcon, LinkedInIcon, WhatsAppIcon } from '../ui/BrandIcons'
 import { site } from '../../data/site'
 import { NAV_LINKS, SERVICES, CITIES } from '../../data/content'
 import { useUI } from '../../context/UIContext'
@@ -78,14 +78,15 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href={site.appLinks.playStore} className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 transition hover:border-white/30">
-                <GooglePlayIcon className="h-5 w-5 text-white" />
-                <span className="text-left leading-tight"><span className="block text-[10px]">Get it on</span><span className="text-sm font-semibold text-white">Google Play</span></span>
-              </a>
-              <a href={site.appLinks.appStore} className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2 transition hover:border-white/30">
-                <AppleIcon className="h-5 w-5 text-white" />
-                <span className="text-left leading-tight"><span className="block text-[10px]">Download on</span><span className="text-sm font-semibold text-white">App Store</span></span>
+            <div className="mt-6">
+              <a
+                href={site.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-xs font-bold text-emerald-400 hover:bg-emerald-500/20 transition-all hover:-translate-y-0.5"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+                <span>Book via WhatsApp: {site.phone}</span>
               </a>
             </div>
           </div>

@@ -92,36 +92,37 @@
   }
 
   .btn {
-    @apply relative isolate inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-semibold whitespace-nowrap transition-all duration-300 select-none active:scale-[0.97] disabled:pointer-events-none disabled:opacity-60;
+    @apply relative isolate inline-flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-semibold whitespace-nowrap transition-all duration-300 select-none active:scale-[0.96] disabled:pointer-events-none disabled:opacity-60;
   }
   /* shine sweep */
   .btn::before {
     content: "";
     position: absolute;
     inset: 0;
-    z-index: -1;
-    transform: translateX(-130%) skewX(-20deg);
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-    transition: transform 0.8s ease;
+    z-index: 1;
+    pointer-events: none;
+    transform: translateX(-140%) skewX(-20deg);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transition: transform 0.75s ease;
   }
   .btn:hover::before {
-    transform: translateX(130%) skewX(-20deg);
+    transform: translateX(140%) skewX(-20deg);
   }
   .btn-primary {
-    @apply bg-linear-to-r from-brand-400 via-brand-500 to-flame-500 text-ink-950 shadow-[0_10px_30px_-10px_rgba(255,140,0,0.8)] hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-12px_rgba(255,120,0,0.9)];
+    @apply bg-linear-to-r from-brand-400 via-brand-500 to-flame-500 text-ink-950 shadow-[0_10px_30px_-10px_rgba(255,140,0,0.8)] hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_18px_45px_-10px_rgba(255,140,0,0.85)];
     background-size: 200% 100%;
   }
   .btn-primary:hover {
     background-position: 100% 0;
   }
   .btn-dark {
-    @apply bg-ink-900 text-white shadow-lg shadow-ink-900/20 hover:-translate-y-0.5 hover:bg-ink-800;
+    @apply bg-ink-900 text-white shadow-lg shadow-ink-900/20 hover:-translate-y-1 hover:scale-[1.02] hover:bg-ink-800 hover:shadow-xl hover:shadow-ink-900/30;
   }
   .btn-ghost {
-    @apply border border-white/20 bg-white/5 text-white backdrop-blur-md hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/10;
+    @apply border border-white/20 bg-white/5 text-white backdrop-blur-md hover:-translate-y-1 hover:scale-[1.02] hover:border-white/40 hover:bg-white/10;
   }
   .btn-outline {
-    @apply border border-ink-900/15 bg-white text-ink-900 hover:-translate-y-0.5 hover:border-brand-500 hover:text-brand-600;
+    @apply border border-ink-900/15 bg-white text-ink-900 hover:-translate-y-1 hover:scale-[1.02] hover:border-brand-500 hover:text-brand-600 hover:shadow-md;
   }
 
   .text-gradient {

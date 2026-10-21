@@ -48,10 +48,10 @@ export const CITIES_LIST = [
 
 /* ─────────────── Stats ─────────────── */
 export const STATS = [
-  { value: 4.8, decimals: 1, suffix: '/5', label: 'Google Rating', sub: '12k+ reviews' },
-  { value: 4.7, decimals: 1, suffix: '/5', label: 'Play Store', sub: '50k+ downloads' },
-  { value: 120, suffix: '+', label: 'Cities Covered', sub: 'Across India' },
-  { value: 1, suffix: 'M+', label: 'Happy Rides', sub: 'And counting' },
+  { value: 4.9, decimals: 1, suffix: '/5', label: 'Google Rating', sub: 'Verified reviews' },
+  { value: 99.4, decimals: 1, suffix: '%', label: 'On-Time Dispatch', sub: 'Guaranteed arrival' },
+  { value: 18, suffix: '+', label: 'Verified Cars', sub: 'In pristine condition' },
+  { value: 25, suffix: 'k+', label: 'Happy Customers', sub: 'Local & outstation' },
 ]
 
 /* ─────────────── Services ─────────────── */

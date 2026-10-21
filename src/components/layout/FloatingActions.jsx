@@ -58,7 +58,7 @@ export default function FloatingActions() {
           rel="noreferrer"
           aria-label="Chat on WhatsApp"
           id="whatsapp-float"
-          className="group relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-5px_rgba(37,211,102,0.6)] transition hover:-translate-y-1 hover:scale-105"
+          className="group relative grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-5px_rgba(37,211,102,0.6)] transition-all duration-300 hover:scale-110 active:scale-95 animate-float"
         >
           <span className="absolute inset-0 animate-pulse-ring rounded-full bg-[#25D366]" />
           <WhatsAppIcon className="relative h-7 w-7" />

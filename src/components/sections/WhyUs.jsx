@@ -13,7 +13,7 @@ export default function WhyUs() {
           <div className="relative mx-auto max-w-lg">
             <div className="absolute -inset-4 animate-spin-slow rounded-[2.5rem] border border-dashed border-brand-500/25" />
             <div className="relative overflow-hidden rounded-[2rem] border border-white/10">
-              <img src="/cars_assets/thar-diesel-42---550000/img-1.webp" alt="Shivsai Verified Fleet vehicle" loading="lazy" className="aspect-[4/5] w-full object-cover object-center transition-transform duration-[2s] hover:scale-105" />
+              <img src="/cars_assets/thar-diesel-42---550000/img-1.webp" alt="Shivsai Verified Fleet vehicle" loading="lazy" draggable={false} onContextMenu={(e) => e.preventDefault()} className="aspect-[4/5] w-full object-cover object-center transition-transform duration-[2s] hover:scale-105 pointer-events-none select-none" />
               <div className="absolute inset-0 bg-linear-to-t from-ink-950/80 via-transparent to-transparent" />
               <div className="absolute inset-x-6 bottom-6">
                 <p className="font-display text-2xl font-bold text-white">10+ years on the road</p>
