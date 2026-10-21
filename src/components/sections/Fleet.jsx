@@ -48,18 +48,17 @@ export default function Fleet() {
     <section id="fleet" className="relative bg-white py-20 sm:py-28">
       <div className="container-x">
         {/* Header */}
-        <div className="flex flex-col items-center justify-between gap-8 lg:flex-row lg:items-end">
+        <div className="flex flex-col items-center justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading
             align="left"
-            className="items-center! text-center lg:items-start! lg:text-left"
+            className="items-center! text-center lg:items-start! lg:text-left max-w-none!"
             eyebrow="Our Verified Fleet"
             title="Available Cars &"
             highlight="Transparent Pricing"
-            text="Real photos, fixed pricing, and verified condition. Choose your ideal car below."
           />
 
           {/* Filters */}
-          <div className="no-scrollbar -mx-4 flex max-w-[100vw] gap-1 overflow-x-auto px-4 lg:mx-0 lg:px-0">
+          <div className="no-scrollbar -mx-4 flex max-w-[100vw] gap-1 overflow-x-auto px-4 lg:mx-0 lg:px-0 lg:shrink-0">
             <div className="flex gap-1 rounded-full border border-ink-900/10 bg-surface p-1.5 shadow-xs">
               {FLEET_FILTERS.map((f) => {
                 const count = f === 'All' ? FLEET.length : FLEET.filter((c) => c.category === f).length
@@ -68,7 +67,7 @@ export default function Fleet() {
                     key={f}
                     id={`fleet-filter-${f.toLowerCase().replace(/\s+/g, '-')}`}
                     onClick={() => setFilter(f)}
-                    className={`relative rounded-full px-4 py-2 text-xs font-bold whitespace-nowrap transition-colors sm:px-5 sm:text-sm ${
+                    className={`relative rounded-full px-3.5 py-2 text-xs font-bold whitespace-nowrap transition-colors sm:px-4 sm:text-sm ${
                       filter === f ? 'text-white' : 'text-ink-900/60 hover:text-ink-900'
                     }`}
                   >
