@@ -12,7 +12,7 @@ export default function Testimonials() {
   return (
     <section className="relative overflow-hidden bg-surface py-20 sm:py-28" aria-label="Testimonials">
       <div className="container-x">
-        <SectionHeading eyebrow="Testimonials" title="Loved by" highlight="25,000+ riders" text="What our riders say about travelling with us." />
+        <SectionHeading eyebrow="Testimonials" title="Loved by" highlight="5,000+ riders" text="What our riders say about travelling with us." />
       </div>
 
       <Reveal delay={0.1} className="mt-14">

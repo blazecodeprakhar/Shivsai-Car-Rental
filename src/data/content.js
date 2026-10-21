@@ -51,7 +51,7 @@ export const STATS = [
   { value: 4.9, decimals: 1, suffix: '/5', label: 'Google Rating', sub: 'Verified reviews' },
   { value: 99.4, decimals: 1, suffix: '%', label: 'On-Time Dispatch', sub: 'Guaranteed arrival' },
   { value: 18, suffix: '+', label: 'Verified Cars', sub: 'In pristine condition' },
-  { value: 25, suffix: 'k+', label: 'Happy Customers', sub: 'Local & outstation' },
+  { value: 5, suffix: 'K+', label: 'Happy Rides', sub: 'And counting' },
 ]
 
 /* ─────────────── Services ─────────────── */
