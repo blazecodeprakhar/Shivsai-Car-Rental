@@ -13,7 +13,7 @@ export default function PopularRoutes() {
   return (
     <section id="routes" className="relative bg-surface py-20 sm:py-28">
       <div className="container-x">
-        <SectionHeading eyebrow="Popular routes" title="Top routes our" highlight="riders love" text="Fixed starting fares for top routes. Tap to book instantly." />
+        <SectionHeading eyebrow="Pune Routes" title="Top routes from" highlight="Pune riders love" text="Fixed starting fares for top outstation and airport routes from Pune. Tap to book instantly." />
 
         <Reveal className="mt-10 flex justify-center">
           <div role="tablist" className="inline-flex gap-1 rounded-full border border-ink-900/10 bg-surface p-1.5">

@@ -33,30 +33,59 @@ export default function Footer() {
 
       <div className="container-x relative">
         {/* contact cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
           {[
-            { icon: Phone, label: 'Call us 24 × 7', value: site.phone, href: `tel:${site.phoneRaw}` },
-            { icon: Mail, label: 'Email us', value: site.email, href: `mailto:${site.email}` },
-            { icon: MapPin, label: 'Visit us', value: site.address, href: site.mapLink },
-            { icon: Clock, label: 'Working hours', value: site.hours },
+            {
+              icon: Phone,
+              label: 'Call us 24 × 7',
+              value: site.phone,
+              sub: 'Instant booking & dispatch',
+              href: `tel:${site.phoneRaw}`,
+            },
+            {
+              icon: Mail,
+              label: 'Email us',
+              value: site.email,
+              sub: '24×7 customer support',
+              href: `mailto:${site.email}`,
+            },
+            {
+              icon: MapPin,
+              label: 'Visit us',
+              value: 'Shop No 1, Sinhgad Campus',
+              sub: 'Vadgaon Budruk, Pune 411041',
+              fullAddress: site.address,
+              href: site.mapLink,
+            },
+            {
+              icon: Clock,
+              label: 'Working hours',
+              value: 'Open 24 × 7 | All days',
+              sub: 'Round-the-clock service',
+              href: undefined,
+            },
           ].map((c, i) => (
             <motion.a
               key={c.label}
               href={c.href}
               target={c.href?.startsWith('http') ? '_blank' : undefined}
               rel="noreferrer"
+              title={c.fullAddress || c.value}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6 }}
-              className="glass group flex items-start gap-4 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand-400/40"
+              className={`glass group flex h-full min-h-[96px] items-center gap-3.5 rounded-2xl p-4 sm:p-5 transition-all duration-300 ${
+                c.href ? 'hover:-translate-y-1 hover:border-brand-400/40 hover:bg-white/[0.08] cursor-pointer' : 'cursor-default'
+              }`}
             >
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-linear-to-br from-brand-400 to-flame-500 text-ink-950 transition-transform duration-500 group-hover:rotate-[-10deg]">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-linear-to-br from-brand-400 to-flame-500 text-ink-950 transition-transform duration-500 group-hover:rotate-[-10deg] shadow-md shadow-brand-500/20">
                 <c.icon className="h-5 w-5" />
               </span>
-              <span className="min-w-0">
-                <span className="block text-xs text-white/50">{c.label}</span>
-                <span className="mt-0.5 block text-sm leading-snug font-semibold text-white">{c.value}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-xs font-medium text-white/50">{c.label}</span>
+                <span className="mt-0.5 block text-sm font-semibold leading-snug text-white truncate" title={c.value}>{c.value}</span>
+                <span className="mt-0.5 block text-xs leading-snug text-white/60 truncate" title={c.sub}>{c.sub}</span>
               </span>
             </motion.a>
           ))}
@@ -104,7 +133,7 @@ export default function Footer() {
             ))}
           </FooterCol>
 
-          <FooterCol title="Top Cities" className="lg:col-span-2">
+          <FooterCol title="Top Pune Locations" className="lg:col-span-2">
             {CITIES.slice(0, 7).map((c) => (
               <FooterLink key={c.name} onClick={() => openBooking({ from: c.name })}>Cabs in {c.name}</FooterLink>
             ))}

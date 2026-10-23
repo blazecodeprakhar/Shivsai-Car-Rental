@@ -145,9 +145,9 @@ function BookingForm({ prefill }) {
 
       <form onSubmit={(e) => (e.preventDefault(), submit('whatsapp'))} className="space-y-5 px-6 py-6 sm:px-8" noValidate>
         <div className="grid gap-3 sm:grid-cols-2">
-          <CityInput label={form.trip === 'airport' ? 'Airport / City' : 'Pickup City'} value={form.from} onChange={set('from')} error={errors.from} id="bk-from" />
+          <CityInput label={form.trip === 'airport' ? 'Airport / Location' : 'Pickup Location'} placeholder="Enter Pune location" value={form.from} onChange={set('from')} error={errors.from} id="bk-from" />
           {needsDrop ? (
-            <CityInput label="Drop City" value={form.to} onChange={set('to')} error={errors.to} icon={Navigation} id="bk-to" />
+            <CityInput label="Drop Location / City" placeholder="Enter destination or city" value={form.to} onChange={set('to')} error={errors.to} icon={Navigation} id="bk-to" />
           ) : form.trip === 'local' ? (
             <Field label="Package" icon={Users}>
               <select className="field-input cursor-pointer" value={form.pkg} onChange={(e) => set('pkg')(e.target.value)}>

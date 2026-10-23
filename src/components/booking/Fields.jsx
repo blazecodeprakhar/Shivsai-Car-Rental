@@ -31,7 +31,7 @@ export function Field({ label, icon: Icon, error, children, className = '' }) {
 }
 
 /** City text input with animated suggestions dropdown */
-export function CityInput({ label, value, onChange, placeholder = 'Enter city', error, icon = MapPin, id }) {
+export function CityInput({ label, value, onChange, placeholder = 'Enter Pune location or city', error, icon = MapPin, id }) {
   const [focused, setFocused] = useState(false)
   const autoId = useId()
   const q = value.trim().toLowerCase()

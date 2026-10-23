@@ -9,15 +9,15 @@ export const site = {
   nameEnd: 'Car Rental',
   tagline: 'Rent. Ride. Relax.',
   description:
-    'Your trusted partner for local, outstation, and airport cab bookings across India.',
+    'Your trusted partner for local, outstation, and airport cab bookings across 120+ locations in Pune and Maharashtra.',
 
   phone: '+91 93714 12111',
   phoneRaw: '+919371412111',
   whatsapp: '919371412111',
   email: 'hello@shivsaicarrental.com',
   supportEmail: 'support@shivsaicarrental.com',
-  address: 'Skyline Business Park, MG Road, Bengaluru, Karnataka 560001',
-  mapLink: 'https://maps.google.com/?q=MG+Road+Bengaluru',
+  address: 'Shop No 1, Sinhgad Institute Rd, Campus, Vadgaon Budruk, Pune, Maharashtra 411041',
+  mapLink: 'https://maps.google.com/?q=Shop+No+1+Sinhgad+Institute+Rd+Campus+Vadgaon+Budruk+Pune+Maharashtra+411041',
   hours: 'Open 24 × 7 | all days',
 
   socials: {

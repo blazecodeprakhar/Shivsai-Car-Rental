@@ -29,7 +29,7 @@ export default function BookingWidget() {
   const onSearch = (e) => {
     e.preventDefault()
     const errs = {}
-    if (!form.from.trim()) errs.from = 'Please enter a city'
+    if (!form.from.trim()) errs.from = 'Please enter pickup location'
     if (['oneway', 'round', 'road'].includes(trip) && !form.to.trim()) errs.to = 'Please enter destination'
     setErrors(errs)
     if (Object.keys(errs).length) return
@@ -118,8 +118,8 @@ export default function BookingWidget() {
 
               <CityInput
                 id="w-from"
-                label={trip === 'airport' ? 'Airport City' : trip === 'local' ? 'Pickup City' : 'From'}
-                placeholder="Enter city"
+                label={trip === 'airport' ? 'Airport / Location' : trip === 'local' ? 'Pickup Location' : 'From'}
+                placeholder="Enter Pune location"
                 value={form.from}
                 onChange={set('from')}
                 error={errors.from}
