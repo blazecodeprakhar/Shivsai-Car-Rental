@@ -26,8 +26,8 @@ function BookingForm({ prefill }) {
     date: prefill.date ?? nowLocal(3),
     returnDate: prefill.returnDate ?? '',
     dropDate: prefill.dropDate ?? (prefill.trip === 'road' ? (prefill.returnDate || addDaysToDateTime(prefill.date ?? nowLocal(3), 3)) : ''),
-    pkg: prefill.pkg ?? (prefill.trip === 'road' ? ROAD_PACKAGES[2] : LOCAL_PACKAGES[2]),
-    roadPkg: prefill.roadPkg ?? (prefill.trip === 'road' && prefill.pkg ? prefill.pkg : ROAD_PACKAGES[2]),
+    pkg: prefill.pkg ?? (prefill.trip === 'road' ? ROAD_PACKAGES[0] : LOCAL_PACKAGES[0]),
+    roadPkg: prefill.roadPkg ?? (prefill.trip === 'road' && prefill.pkg ? prefill.pkg : ROAD_PACKAGES[0]),
     car: prefill.car ?? FLEET[0]?.id ?? 'swift-diesel',
     fuelType: prefill.fuelType ?? 'Diesel',
     name: '',
@@ -101,7 +101,6 @@ function BookingForm({ prefill }) {
       `🚗 *Trip Type:* ${tripLabel}`,
       `📍 *Pickup Location:* ${form.from}`,
       needsDrop && `🏁 *${form.trip === 'road' ? 'Destination' : 'Drop Location'}:* ${form.to}`,
-      form.trip === 'local' && `⏱️ *Package:* ${form.pkg}`,
       form.trip === 'road' && `📦 *Package:* ${form.roadPkg || form.pkg}`,
       `📅 *${form.trip === 'road' ? 'Booking Date & Time' : 'Date & Time'}:* ${formatDateTime(form.date)}`,
       form.trip === 'round' && form.returnDate && `🔄 *Return Date:* ${formatDateTime(form.returnDate)}`,
@@ -156,21 +155,28 @@ function BookingForm({ prefill }) {
 
       <form onSubmit={(e) => (e.preventDefault(), submit('whatsapp'))} className="space-y-5 px-6 py-6 sm:px-8" noValidate>
         <div className="grid gap-3 sm:grid-cols-2">
-          <CityInput label={form.trip === 'airport' ? 'Airport / Location' : 'Pickup Location'} placeholder="Enter Pune location" value={form.from} onChange={set('from')} error={errors.from} id="bk-from" />
+          <CityInput
+            label={form.trip === 'airport' ? 'Airport / Location' : 'Pickup Location'}
+            placeholder="Enter Pune location"
+            value={form.from}
+            onChange={set('from')}
+            error={errors.from}
+            id="bk-from"
+            className={form.trip === 'local' ? 'sm:col-span-2' : ''}
+          />
           {needsDrop ? (
             <CityInput label="Drop Location / City" placeholder="Enter destination or city" value={form.to} onChange={set('to')} error={errors.to} icon={Navigation} id="bk-to" />
-          ) : form.trip === 'local' ? (
-            <Field label="Package" icon={Users}>
-              <select className="field-input cursor-pointer" value={form.pkg} onChange={(e) => set('pkg')(e.target.value)}>
-                {LOCAL_PACKAGES.map((p) => <option key={p}>{p}</option>)}
-              </select>
-            </Field>
-          ) : (
+          ) : form.trip === 'airport' ? (
             <Field label="Pickup / Drop Address" icon={MapPin}>
               <input className="field-input" placeholder="Area, landmark" value={form.to} onChange={(e) => set('to')(e.target.value)} />
             </Field>
-          )}
-          <Field label={form.trip === 'road' ? 'Booking Date – Time' : 'Pickup Date & Time'} icon={Calendar} error={errors.date}>
+          ) : null}
+          <Field
+            label={form.trip === 'road' ? 'Booking Date – Time' : 'Pickup Date & Time'}
+            icon={Calendar}
+            error={errors.date}
+            className={form.trip === 'local' ? 'sm:col-span-2' : ''}
+          >
             <input type="datetime-local" className="field-input" min={nowLocal()} value={form.date} onChange={(e) => {
               const newDate = e.target.value
               if (form.trip === 'road') {

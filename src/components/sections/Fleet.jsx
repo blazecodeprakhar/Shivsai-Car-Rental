@@ -25,7 +25,7 @@ export default function Fleet() {
   const [filter, setFilter] = useState('All')
   const [activeCarPhotos, setActiveCarPhotos] = useState(null)
   const [termsModalCar, setTermsModalCar] = useState(null)
-  const { openBooking } = useUI()
+  const { openBooking, openTerms } = useUI()
 
   const cars = filter === 'All' ? FLEET : FLEET.filter((c) => c.category === filter)
 
@@ -121,8 +121,9 @@ export default function Fleet() {
             </div>
             <button
               type="button"
-              onClick={() => setTermsModalCar(FLEET[0])}
-              className="btn btn-primary py-2.5 px-5 text-xs font-bold self-start lg:self-auto shadow-md shadow-brand-500/20"
+              onClick={openTerms}
+              id="view-full-terms-btn"
+              className="btn btn-primary py-2.5 px-5 text-xs font-bold self-start lg:self-auto shadow-md shadow-brand-500/20 cursor-pointer"
             >
               <FileText className="h-4 w-4" /> View Full 9 Terms in Modal
             </button>
@@ -469,7 +470,8 @@ function PhotoModal({ car, onClose }) {
 
 function TermsModal({ car, onClose, onBook }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl border border-ink-900/10">
         <div className="bg-ink-950 px-6 py-5 text-white">
           <div className="flex items-center justify-between">

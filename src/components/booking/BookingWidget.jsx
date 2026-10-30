@@ -11,10 +11,10 @@ const initial = () => ({
   to: '',
   date: defaultDate,
   returnDate: '',
-  dropDate: addDaysToDateTime(defaultDate, 3),
-  pkg: LOCAL_PACKAGES[2],
-  roadPkg: ROAD_PACKAGES[2], // '3 Days'
-  days: '3',
+  dropDate: addDaysToDateTime(defaultDate, 1),
+  pkg: LOCAL_PACKAGES[0],
+  roadPkg: ROAD_PACKAGES[0], // '1 Day'
+  days: '1',
   airportMode: 'pickup',
 })
 
@@ -209,6 +209,7 @@ export default function BookingWidget() {
                     value={form.from}
                     onChange={set('from')}
                     error={errors.from}
+                    className={trip === 'local' ? 'sm:col-span-2' : ''}
                   />
 
                   {['oneway', 'round'].includes(trip) && (
@@ -221,14 +222,6 @@ export default function BookingWidget() {
                       onChange={set('to')}
                       error={errors.to}
                     />
-                  )}
-
-                  {trip === 'local' && (
-                    <Field label="Package" icon={Package}>
-                      <select id="w-pkg" className="field-input cursor-pointer" value={form.pkg} onChange={(e) => set('pkg')(e.target.value)}>
-                        {LOCAL_PACKAGES.map((p) => <option key={p}>{p}</option>)}
-                      </select>
-                    </Field>
                   )}
 
                   {trip === 'airport' && (

@@ -31,14 +31,14 @@ export function Field({ label, icon: Icon, error, children, className = '' }) {
 }
 
 /** City text input with animated suggestions dropdown */
-export function CityInput({ label, value, onChange, placeholder = 'Enter Pune location or city', error, icon = MapPin, id }) {
+export function CityInput({ label, value, onChange, placeholder = 'Enter Pune location or city', error, icon = MapPin, id, className = '' }) {
   const [focused, setFocused] = useState(false)
   const autoId = useId()
   const q = value.trim().toLowerCase()
   const matches = CITIES_LIST.filter((c) => c.toLowerCase().includes(q) && c.toLowerCase() !== q).slice(0, 6)
 
   return (
-    <div className="relative">
+    <div className={`relative ${className}`}>
       <Field label={label} icon={icon} error={error}>
         <input
           id={id ?? autoId}
