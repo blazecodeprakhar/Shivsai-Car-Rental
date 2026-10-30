@@ -103,3 +103,14 @@ export function formatDateTime(v) {
   if (Number.isNaN(d.getTime())) return v
   return d.toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: v.length > 10 ? 'numeric' : undefined, minute: v.length > 10 ? '2-digit' : undefined })
 }
+
+export function addDaysToDateTime(dateStr, days) {
+  if (!dateStr) return ''
+  const [datePart, timePart] = dateStr.split('T')
+  if (!datePart) return ''
+  const [year, month, day] = datePart.split('-').map(Number)
+  const d = new Date(year, month - 1, day + Number(days))
+  const pad = (n) => String(n).padStart(2, '0')
+  const dateFormatted = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+  return timePart ? `${dateFormatted}T${timePart}` : dateFormatted
+}

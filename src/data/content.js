@@ -38,6 +38,7 @@ export const TRIP_TYPES = [
 ]
 
 export const LOCAL_PACKAGES = ['4 Hrs / 40 Km', '6 Hrs / 60 Km', '8 Hrs / 80 Km', '10 Hrs / 100 Km', '12 Hrs / 120 Km']
+export const ROAD_PACKAGES = ['1 Day', '2 Days', '3 Days', '4 Days', '5 Days', '6 Days', '7 Days', '8 Days']
 
 export const CITIES_LIST = [
   'Akurdi', 'Aundh', 'Balewadi', 'Baner', 'Bavdhan', 'Bhosari', 'Bibwewadi', 'Camp', 'Chakan',

@@ -1,16 +1,19 @@
 import { AnimatePresence, motion } from 'motion/react'
-import { Calendar, Navigation, Package, Search, MapPin, Timer, PlaneLanding, PlaneTakeoff, ShieldCheck } from 'lucide-react'
+import { Calendar, Navigation, Package, Search, MapPin, PlaneLanding, PlaneTakeoff, ShieldCheck } from 'lucide-react'
 import { useState } from 'react'
-import { Field, CityInput, nowLocal } from './Fields'
-import { TRIP_TYPES, LOCAL_PACKAGES } from '../../data/content'
+import { Field, CityInput, nowLocal, addDaysToDateTime } from './Fields'
+import { TRIP_TYPES, LOCAL_PACKAGES, ROAD_PACKAGES } from '../../data/content'
 import { useUI } from '../../context/UIContext'
 
+const defaultDate = nowLocal(3)
 const initial = () => ({
-  from: '',
+  from: 'Pune',
   to: '',
-  date: nowLocal(3),
+  date: defaultDate,
   returnDate: '',
+  dropDate: addDaysToDateTime(defaultDate, 3),
   pkg: LOCAL_PACKAGES[2],
+  roadPkg: ROAD_PACKAGES[2], // '3 Days'
   days: '3',
   airportMode: 'pickup',
 })
@@ -26,20 +29,52 @@ export default function BookingWidget() {
     setErrors((e) => ({ ...e, [k]: undefined }))
   }
 
+  const handleRoadPkgChange = (e) => {
+    const newPkg = e.target.value
+    const days = parseInt(newPkg, 10) || 1
+    setForm((f) => ({
+      ...f,
+      roadPkg: newPkg,
+      days: String(days),
+      dropDate: addDaysToDateTime(f.date, days),
+    }))
+  }
+
+  const handleBookingDateChange = (e) => {
+    const newDate = e.target.value
+    const days = parseInt(form.roadPkg, 10) || 3
+    setForm((f) => ({
+      ...f,
+      date: newDate,
+      dropDate: addDaysToDateTime(newDate, days),
+    }))
+    setErrors((err) => ({ ...err, date: undefined }))
+  }
+
   const onSearch = (e) => {
     e.preventDefault()
     const errs = {}
-    if (!form.from.trim()) errs.from = 'Please enter pickup location'
-    if (['oneway', 'round', 'road'].includes(trip) && !form.to.trim()) errs.to = 'Please enter destination'
+    if (trip === 'road') {
+      if (!form.to.trim()) errs.to = 'Please enter destination'
+      if (!form.date) errs.date = 'Please choose booking date & time'
+      if (!form.dropDate) errs.dropDate = 'Please choose drop date & time'
+    } else {
+      if (!form.from.trim()) errs.from = 'Please enter pickup location'
+      if (['oneway', 'round'].includes(trip) && !form.to.trim()) errs.to = 'Please enter destination'
+    }
     setErrors(errs)
     if (Object.keys(errs).length) return
+
     openBooking({
       trip,
-      from: form.from,
-      to: trip === 'airport' ? form.to : form.to,
+      from: trip === 'road' ? (form.from.trim() || 'Pune') : form.from,
+      to: form.to,
       date: form.date,
-      returnDate: form.returnDate,
-      pkg: form.pkg,
+      returnDate: trip === 'road' ? form.dropDate : form.returnDate,
+      dropDate: form.dropDate,
+      pkg: trip === 'road' ? form.roadPkg : form.pkg,
+      roadPkg: form.roadPkg,
+      days: form.roadPkg ? String(parseInt(form.roadPkg, 10)) : form.days,
     })
   }
 
@@ -96,77 +131,128 @@ export default function BookingWidget() {
               transition={{ duration: 0.25 }}
               className="grid gap-3 sm:grid-cols-2"
             >
-              {trip === 'airport' && (
-                <div className="grid grid-cols-2 gap-1 rounded-2xl bg-surface p-1 sm:col-span-2">
-                  {[
-                    { id: 'pickup', label: 'Pickup from Airport', icon: PlaneLanding },
-                    { id: 'drop', label: 'Drop to Airport', icon: PlaneTakeoff },
-                  ].map((m) => (
-                    <button
-                      key={m.id}
-                      type="button"
-                      onClick={() => set('airportMode')(m.id)}
-                      className={`flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold transition-all sm:text-sm ${
-                        form.airportMode === m.id ? 'bg-ink-900 text-white shadow-md' : 'text-ink-900/60 hover:text-ink-900'
-                      }`}
+              {trip === 'road' ? (
+                <>
+                  <CityInput
+                    id="w-destination"
+                    label="Destination"
+                    placeholder="Enter destination (e.g. Mahabaleshwar, Goa, Lonavala)"
+                    icon={Navigation}
+                    value={form.to}
+                    onChange={set('to')}
+                    error={errors.to}
+                  />
+
+                  <Field label="Package" icon={Package}>
+                    <select
+                      id="w-road-pkg"
+                      className="field-input cursor-pointer"
+                      value={form.roadPkg}
+                      onChange={handleRoadPkgChange}
                     >
-                      <m.icon className="h-4 w-4" /> {m.label}
-                    </button>
-                  ))}
-                </div>
-              )}
+                      {ROAD_PACKAGES.map((p) => (
+                        <option key={p} value={p}>
+                          {p}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
 
-              <CityInput
-                id="w-from"
-                label={trip === 'airport' ? 'Airport / Location' : trip === 'local' ? 'Pickup Location' : 'From'}
-                placeholder="Enter Pune location"
-                value={form.from}
-                onChange={set('from')}
-                error={errors.from}
-              />
+                  <Field label="Booking Date – Time" icon={Calendar} error={errors.date}>
+                    <input
+                      id="w-date"
+                      type="datetime-local"
+                      className="field-input"
+                      min={nowLocal()}
+                      value={form.date}
+                      onChange={handleBookingDateChange}
+                    />
+                  </Field>
 
-              {['oneway', 'round', 'road'].includes(trip) && (
-                <CityInput id="w-to" label={trip === 'road' ? 'Destination' : 'To'} placeholder="Enter destination" icon={Navigation} value={form.to} onChange={set('to')} error={errors.to} />
-              )}
+                  <Field label="Drop Date – Time" icon={Calendar} error={errors.dropDate}>
+                    <input
+                      id="w-drop-date"
+                      type="datetime-local"
+                      className="field-input"
+                      min={form.date || nowLocal()}
+                      value={form.dropDate}
+                      onChange={(e) => set('dropDate')(e.target.value)}
+                    />
+                  </Field>
+                </>
+              ) : (
+                <>
+                  {trip === 'airport' && (
+                    <div className="grid grid-cols-2 gap-1 rounded-2xl bg-surface p-1 sm:col-span-2">
+                      {[
+                        { id: 'pickup', label: 'Pickup from Airport', icon: PlaneLanding },
+                        { id: 'drop', label: 'Drop to Airport', icon: PlaneTakeoff },
+                      ].map((m) => (
+                        <button
+                          key={m.id}
+                          type="button"
+                          onClick={() => set('airportMode')(m.id)}
+                          className={`flex items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-semibold transition-all sm:text-sm ${
+                            form.airportMode === m.id ? 'bg-ink-900 text-white shadow-md' : 'text-ink-900/60 hover:text-ink-900'
+                          }`}
+                        >
+                          <m.icon className="h-4 w-4" /> {m.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
 
-              {trip === 'local' && (
-                <Field label="Package" icon={Package}>
-                  <select id="w-pkg" className="field-input cursor-pointer" value={form.pkg} onChange={(e) => set('pkg')(e.target.value)}>
-                    {LOCAL_PACKAGES.map((p) => <option key={p}>{p}</option>)}
-                  </select>
-                </Field>
-              )}
+                  <CityInput
+                    id="w-from"
+                    label={trip === 'airport' ? 'Airport / Location' : trip === 'local' ? 'Pickup Location' : 'From'}
+                    placeholder="Enter Pune location"
+                    value={form.from}
+                    onChange={set('from')}
+                    error={errors.from}
+                  />
 
-              {trip === 'airport' && (
-                <Field label={form.airportMode === 'pickup' ? 'Drop Address' : 'Pickup Address'} icon={MapPin}>
-                  <input id="w-address" className="field-input" placeholder="Area, landmark" value={form.to} onChange={(e) => set('to')(e.target.value)} />
-                </Field>
-              )}
+                  {['oneway', 'round'].includes(trip) && (
+                    <CityInput
+                      id="w-to"
+                      label="To"
+                      placeholder="Enter destination"
+                      icon={Navigation}
+                      value={form.to}
+                      onChange={set('to')}
+                      error={errors.to}
+                    />
+                  )}
 
-              <Field label={trip === 'road' ? 'Start Date' : 'Pickup Date & Time'} icon={Calendar} className={trip === 'local' || trip === 'oneway' || trip === 'airport' ? 'sm:col-span-2' : ''}>
-                <input id="w-date" type="datetime-local" className="field-input" min={nowLocal()} value={form.date} onChange={(e) => set('date')(e.target.value)} />
-              </Field>
+                  {trip === 'local' && (
+                    <Field label="Package" icon={Package}>
+                      <select id="w-pkg" className="field-input cursor-pointer" value={form.pkg} onChange={(e) => set('pkg')(e.target.value)}>
+                        {LOCAL_PACKAGES.map((p) => <option key={p}>{p}</option>)}
+                      </select>
+                    </Field>
+                  )}
 
-              {trip === 'round' && (
-                <Field label="Return Date" icon={Calendar}>
-                  <input id="w-return" type="date" className="field-input" min={form.date.slice(0, 10)} value={form.returnDate} onChange={(e) => set('returnDate')(e.target.value)} />
-                </Field>
-              )}
+                  {trip === 'airport' && (
+                    <Field label={form.airportMode === 'pickup' ? 'Drop Address' : 'Pickup Address'} icon={MapPin}>
+                      <input id="w-address" className="field-input" placeholder="Area, landmark" value={form.to} onChange={(e) => set('to')(e.target.value)} />
+                    </Field>
+                  )}
 
-              {trip === 'road' && (
-                <Field label="Trip Duration" icon={Timer}>
-                  <select id="w-days" className="field-input cursor-pointer" value={form.days} onChange={(e) => set('days')(e.target.value)}>
-                    {Array.from({ length: 14 }, (_, i) => i + 2).map((d) => (
-                      <option key={d} value={d}>{d} Days</option>
-                    ))}
-                  </select>
-                </Field>
+                  <Field label="Pickup Date & Time" icon={Calendar} className={trip === 'local' || trip === 'oneway' || trip === 'airport' ? 'sm:col-span-2' : ''}>
+                    <input id="w-date" type="datetime-local" className="field-input" min={nowLocal()} value={form.date} onChange={(e) => set('date')(e.target.value)} />
+                  </Field>
+
+                  {trip === 'round' && (
+                    <Field label="Return Date" icon={Calendar}>
+                      <input id="w-return" type="date" className="field-input" min={form.date.slice(0, 10)} value={form.returnDate} onChange={(e) => set('returnDate')(e.target.value)} />
+                    </Field>
+                  )}
+                </>
               )}
             </motion.div>
           </AnimatePresence>
 
           <button type="submit" id="w-search" className="btn btn-primary mt-4 w-full py-4 text-base">
-            <Search className="h-5 w-5" /> Search Cabs
+            <Search className="h-5 w-5" /> Search Cars
           </button>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-ink-900/50">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> Best price guarantee · No hidden charges

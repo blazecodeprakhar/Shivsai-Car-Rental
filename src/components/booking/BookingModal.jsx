@@ -2,10 +2,10 @@ import { motion } from 'motion/react'
 import { Calendar, User, Phone, MapPin, Navigation, Users, Check, PhoneCall, Car, ChevronLeft, ChevronRight, Fuel } from 'lucide-react'
 import { useState, useRef } from 'react'
 import Modal from '../ui/Modal'
-import { Field, CityInput, nowLocal, formatDateTime } from './Fields'
+import { Field, CityInput, nowLocal, formatDateTime, addDaysToDateTime } from './Fields'
 import { WhatsAppIcon } from '../ui/BrandIcons'
 import { useUI } from '../../context/UIContext'
-import { FLEET, TRIP_TYPES, LOCAL_PACKAGES } from '../../data/content'
+import { FLEET, TRIP_TYPES, LOCAL_PACKAGES, ROAD_PACKAGES } from '../../data/content'
 import { site, whatsappLink } from '../../data/site'
 
 export default function BookingModal() {
@@ -25,7 +25,9 @@ function BookingForm({ prefill }) {
     to: prefill.to ?? '',
     date: prefill.date ?? nowLocal(3),
     returnDate: prefill.returnDate ?? '',
-    pkg: prefill.pkg ?? LOCAL_PACKAGES[2],
+    dropDate: prefill.dropDate ?? (prefill.trip === 'road' ? (prefill.returnDate || addDaysToDateTime(prefill.date ?? nowLocal(3), 3)) : ''),
+    pkg: prefill.pkg ?? (prefill.trip === 'road' ? ROAD_PACKAGES[2] : LOCAL_PACKAGES[2]),
+    roadPkg: prefill.roadPkg ?? (prefill.trip === 'road' && prefill.pkg ? prefill.pkg : ROAD_PACKAGES[2]),
     car: prefill.car ?? FLEET[0]?.id ?? 'swift-diesel',
     fuelType: prefill.fuelType ?? 'Diesel',
     name: '',
@@ -98,10 +100,12 @@ function BookingForm({ prefill }) {
       `───────────────────────`,
       `🚗 *Trip Type:* ${tripLabel}`,
       `📍 *Pickup Location:* ${form.from}`,
-      needsDrop && `🏁 *Drop Location:* ${form.to}`,
+      needsDrop && `🏁 *${form.trip === 'road' ? 'Destination' : 'Drop Location'}:* ${form.to}`,
       form.trip === 'local' && `⏱️ *Package:* ${form.pkg}`,
-      `📅 *Date & Time:* ${formatDateTime(form.date)}`,
+      form.trip === 'road' && `📦 *Package:* ${form.roadPkg || form.pkg}`,
+      `📅 *${form.trip === 'road' ? 'Booking Date & Time' : 'Date & Time'}:* ${formatDateTime(form.date)}`,
       form.trip === 'round' && form.returnDate && `🔄 *Return Date:* ${formatDateTime(form.returnDate)}`,
+      form.trip === 'road' && (form.dropDate || form.returnDate) && `🏁 *Drop Date & Time:* ${formatDateTime(form.dropDate || form.returnDate)}`,
       `🚘 *Vehicle:* ${car?.name} (${currentVariantDisplay}) - ${currentPriceDisplay}`,
       activeFuel && `⛽ *Fuel Type Selected:* ${activeFuel.type}`,
       car?.kmLimit && `🛣️ *Limit / Allowance:* ${car?.kmLimit}`,
@@ -166,13 +170,56 @@ function BookingForm({ prefill }) {
               <input className="field-input" placeholder="Area, landmark" value={form.to} onChange={(e) => set('to')(e.target.value)} />
             </Field>
           )}
-          <Field label="Pickup Date & Time" icon={Calendar} error={errors.date}>
-            <input type="datetime-local" className="field-input" min={nowLocal()} value={form.date} onChange={(e) => set('date')(e.target.value)} />
+          <Field label={form.trip === 'road' ? 'Booking Date – Time' : 'Pickup Date & Time'} icon={Calendar} error={errors.date}>
+            <input type="datetime-local" className="field-input" min={nowLocal()} value={form.date} onChange={(e) => {
+              const newDate = e.target.value
+              if (form.trip === 'road') {
+                const days = parseInt(form.roadPkg, 10) || 3
+                setForm((f) => ({ ...f, date: newDate, dropDate: addDaysToDateTime(newDate, days) }))
+              } else {
+                set('date')(newDate)
+              }
+            }} />
           </Field>
           {form.trip === 'round' && (
             <Field label="Return Date" icon={Calendar}>
               <input type="date" className="field-input" min={form.date.slice(0, 10)} value={form.returnDate} onChange={(e) => set('returnDate')(e.target.value)} />
             </Field>
+          )}
+          {form.trip === 'road' && (
+            <>
+              <Field label="Package" icon={Users}>
+                <select
+                  className="field-input cursor-pointer"
+                  value={form.roadPkg}
+                  onChange={(e) => {
+                    const newPkg = e.target.value
+                    const days = parseInt(newPkg, 10) || 1
+                    setForm((f) => ({
+                      ...f,
+                      roadPkg: newPkg,
+                      dropDate: addDaysToDateTime(f.date, days),
+                    }))
+                  }}
+                >
+                  {ROAD_PACKAGES.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+
+              <Field label="Drop Date – Time" icon={Calendar}>
+                <input
+                  type="datetime-local"
+                  className="field-input"
+                  min={form.date || nowLocal()}
+                  value={form.dropDate}
+                  onChange={(e) => set('dropDate')(e.target.value)}
+                />
+              </Field>
+            </>
           )}
         </div>
 
