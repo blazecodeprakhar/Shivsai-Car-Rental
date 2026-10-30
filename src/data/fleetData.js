@@ -1,6 +1,6 @@
 export const FLEET_TERMS = {
   standardLimit: '24 hrs / 350 km limit included',
-  premiumLimit: '24 hrs / 300 km limit included for Thar, Creta, Crysta & Astor',
+  premiumLimit: '24 hrs / 350 km limit included across all vehicles',
   extraKm5Seater: '₹5 / km for 5-seater cars',
   extraKm7Seater: '₹7 / km for 7-seater cars',
   extraKmPremium: '₹7 to ₹15 / km for premium cars',
@@ -111,7 +111,7 @@ export const FLEET = [
     seats: 4,
     bags: 2,
     transmission: 'Manual',
-    kmLimit: '300 km / 24 hrs',
+    kmLimit: '350 km / 24 hrs',
     extraKm: '₹7 to ₹15 / km',
     image: '/cars_assets/mahindra-thar---400000/img-1.webp',
     images: [
@@ -153,7 +153,7 @@ export const FLEET = [
     seats: 5,
     bags: 4,
     transmission: 'Manual',
-    kmLimit: '300 km / 24 hrs',
+    kmLimit: '350 km / 24 hrs',
     extraKm: '₹7 to ₹15 / km',
     image: '/cars_assets/creata---300000/img-1.webp',
     images: [
@@ -251,7 +251,7 @@ export const FLEET = [
     seats: 7,
     bags: 5,
     transmission: 'Manual',
-    kmLimit: '300 km / 24 hrs',
+    kmLimit: '350 km / 24 hrs',
     extraKm: '₹7 to ₹15 / km',
     image: '/cars_assets/innova-crysta-diesel---450000/img-1.webp',
     images: [
@@ -321,7 +321,7 @@ export const FLEET = [
     seats: 5,
     bags: 3,
     transmission: 'Manual',
-    kmLimit: '300 km / 24 hrs',
+    kmLimit: '350 km / 24 hrs',
     extraKm: '₹10 to ₹15 / km',
     image: '/cars_assets/mg-astor-petrol---400000/img-1.webp',
     images: [

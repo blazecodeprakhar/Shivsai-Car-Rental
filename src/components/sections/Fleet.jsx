@@ -117,7 +117,7 @@ export default function Fleet() {
             <div className="grid gap-3 sm:grid-cols-3 text-xs text-ink-900/75">
               <div className="rounded-xl bg-white p-3 border border-ink-900/5 shadow-xs">
                 <p className="font-bold text-ink-900">⏱️ 24 Hrs / 350 Km</p>
-                <p className="mt-0.5 text-ink-900/60">350 km standard limit (300 km for premium). ₹150/hr overtime.</p>
+                <p className="mt-0.5 text-ink-900/60">350 km daily limit included with all cars. ₹150/hr overtime.</p>
               </div>
               <div className="rounded-xl bg-white p-3 border border-ink-900/5 shadow-xs">
                 <p className="font-bold text-ink-900">🏍️ Flexible Deposit</p>

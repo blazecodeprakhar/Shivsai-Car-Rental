@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { ArrowRight, Phone, ShieldCheck, Car, Clock } from 'lucide-react'
+import { ArrowRight, Phone, ShieldCheck, Car, Clock, MapPin } from 'lucide-react'
 import BookingWidget from '../booking/BookingWidget'
 import { site } from '../../data/site'
 import { FLEET, MARQUEE_ITEMS } from '../../data/content'
@@ -9,7 +9,7 @@ const EASE = [0.22, 1, 0.36, 1]
 export default function Hero() {
   return (
     <>
-      <section id="home" className="relative isolate overflow-hidden bg-[#070b14] pt-28 pb-16 sm:pt-32 lg:min-h-[92svh] lg:pt-36 lg:pb-20 flex items-center">
+      <section id="home" className="relative isolate overflow-hidden bg-[#070b14] pt-32 pb-16 sm:pt-36 lg:min-h-[92svh] lg:pt-40 lg:pb-20 flex items-center">
         {/* Subtle, clean modern dark backdrop */}
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(245,158,11,0.12),rgba(7,11,20,0))]" />
         <div className="bg-grid absolute inset-0 -z-10 opacity-20 [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)]" />
@@ -19,18 +19,27 @@ export default function Hero() {
         <div className="container-x w-full grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,540px)] lg:gap-14">
           {/* Copy */}
           <div className="text-center lg:text-left">
-            {/* Simple status badge */}
+            {/* Location & Limit top badge */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: EASE }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/85 backdrop-blur-md"
+              className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/85 backdrop-blur-md lg:justify-start"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+              <span className="flex items-center gap-1.5 font-semibold text-brand-300">
+                <MapPin className="h-3.5 w-3.5 text-brand-400 shrink-0" />
+                Location: Vadgaon Budruk, Pune
               </span>
-              <span>Shivsai Fleet · 18 Verified Cars Ready</span>
+              <span className="text-white/30">·</span>
+              <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-400">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                Limit: 350 Km / Day Included
+              </span>
+              <span className="hidden text-white/30 sm:inline">·</span>
+              <span className="hidden text-white/70 sm:inline">18 Verified Cars</span>
             </motion.div>
 
             {/* Headline in two clean lines */}

@@ -198,7 +198,7 @@ export const FAQS = [
   { q: 'Can I cancel or reschedule my ride?', a: 'Free cancellation up to 6 hours before pickup. Reschedule anytime.' },
   { q: 'What payment methods do you accept?', a: 'UPI, credit/debit cards, net banking, or cash upon trip completion.' },
   { q: 'Are your drivers verified?', a: 'Yes, all drivers undergo police background checks and identity verification.' },
-  { q: 'Do you provide self-drive cars?', a: 'We provide chauffeur-driven cabs only for a comfortable, stress-free journey.' },
+  { q: 'Do you provide self-drive cars?', a: 'Yes! We provide both self-drive car rentals with a generous 350 km daily limit included, as well as chauffeur-driven cabs.' },
 ]
 
 /* ─────────────── Marquee ─────────────── */

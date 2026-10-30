@@ -50,10 +50,49 @@ export default function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? 'border-b border-white/10 bg-[#070b14] py-3.5 shadow-2xl shadow-black/60' : 'bg-transparent py-5'
+          scrolled
+            ? 'border-b border-white/10 bg-[#070b14]/95 shadow-2xl shadow-black/60 backdrop-blur-md'
+            : 'border-b border-white/[0.08] bg-[#070b14]/85 backdrop-blur-md'
         }`}
       >
-        <nav className="container-x flex items-center justify-between gap-4" aria-label="Main">
+        {/* Top utility strip - Location & 350 km daily limit */}
+        <div className="border-b border-white/[0.08] bg-[#03060f]/90 py-1.5 text-[11px] sm:text-xs">
+          <div className="container-x flex items-center justify-between gap-3 text-white/80">
+            <a
+              href={site.mapLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex min-w-0 items-center gap-1.5 text-white/85 transition-colors hover:text-brand-300"
+              title="Open location on Google Maps"
+            >
+              <MapPin className="h-3.5 w-3.5 shrink-0 text-brand-400 transition-transform group-hover:scale-110" />
+              <span className="font-bold text-brand-300">Location:</span>
+              <span className="truncate font-medium text-white/95">
+                {site.address}
+              </span>
+              <span className="hidden text-white/30 md:inline">·</span>
+              <span className="hidden text-white/60 md:inline">
+                Serving 120+ Pickup Locations Across Pune
+              </span>
+            </a>
+
+            <div className="flex shrink-0 items-center gap-2.5 sm:gap-3">
+              <span className="inline-flex items-center gap-1.5 font-bold text-emerald-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                Limit: 350 km / Day
+              </span>
+              <span className="hidden text-white/30 sm:inline">|</span>
+              <span className="hidden font-medium text-white/60 sm:inline">Open 24 × 7</span>
+            </div>
+          </div>
+        </div>
+
+        <nav
+          className={`container-x flex items-center justify-between gap-4 transition-all duration-300 ${
+            scrolled ? 'py-3' : 'py-3.5 sm:py-4'
+          }`}
+          aria-label="Main"
+        >
           <Logo />
 
           {/* Desktop links */}
@@ -175,6 +214,10 @@ export default function Navbar() {
                 <a href={`tel:${site.phoneRaw}`} className="flex items-center gap-3"><Phone className="h-4 w-4 text-brand-400" /> {site.phone}</a>
                 <a href={`mailto:${site.email}`} className="flex items-center gap-3"><Mail className="h-4 w-4 text-brand-400" /> {site.email}</a>
                 <p className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> {site.address}</p>
+                <div className="flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-400">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  Standard Daily Limit: 350 Km Included
+                </div>
                 <button
                   onClick={() => {
                     setOpen(false)
