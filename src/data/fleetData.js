@@ -112,7 +112,7 @@ export const FLEET = [
     bags: 2,
     transmission: 'Manual',
     kmLimit: '300 km / 24 hrs',
-    extraKm: '₹10 to ₹15 / km',
+    extraKm: '₹7 to ₹15 / km',
     image: '/cars_assets/mahindra-thar---400000/img-1.webp',
     images: [
       '/cars_assets/mahindra-thar---400000/img-1.webp',
