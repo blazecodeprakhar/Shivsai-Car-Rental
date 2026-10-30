@@ -19,27 +19,25 @@ export default function Hero() {
         <div className="container-x w-full grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,540px)] lg:gap-14">
           {/* Copy */}
           <div className="text-center lg:text-left">
-            {/* Location & Limit top badge */}
+            {/* Location & Limit twin badges - perfect on phones and desktop */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: EASE }}
-              className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/85 backdrop-blur-md lg:justify-start"
+              className="flex flex-wrap items-center justify-center gap-2 lg:justify-start"
             >
-              <span className="flex items-center gap-1.5 font-semibold text-brand-300">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.06] px-3.5 py-1.5 text-xs font-medium text-white/90 shadow-xs backdrop-blur-md">
                 <MapPin className="h-3.5 w-3.5 text-brand-400 shrink-0" />
-                Location: Vadgaon Budruk, Pune
-              </span>
-              <span className="text-white/30">·</span>
-              <span className="inline-flex items-center gap-1.5 font-semibold text-emerald-400">
-                <span className="relative flex h-2 w-2">
+                <span className="text-brand-300 font-semibold">Location:</span>
+                <span>Vadgaon Budruk, Pune</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-semibold text-emerald-400 shadow-xs backdrop-blur-md">
+                <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                 </span>
-                Limit: 350 Km / Day Included
-              </span>
-              <span className="hidden text-white/30 sm:inline">·</span>
-              <span className="hidden text-white/70 sm:inline">18 Verified Cars</span>
+                <span>Limit: 350 Km / Day Included</span>
+              </div>
             </motion.div>
 
             {/* Headline in two clean lines */}

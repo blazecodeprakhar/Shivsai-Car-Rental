@@ -335,12 +335,9 @@ function BookingForm({ prefill }) {
 
                 <div className="flex items-start gap-3 pt-1">
                   <span className="text-2xl leading-none select-none">📌</span>
-                  <div className="space-y-1">
+                  <div className="pt-0.5">
                     <p className="font-['Caveat',cursive] text-xl font-bold leading-snug tracking-wide text-[#172554] sm:text-2xl">
                       "Note: This car is available in both Diesel and Petrol variants. Please select your preferred fuel type below."
-                    </p>
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-amber-900/80 font-sans">
-                      ✍️ Handwritten Note · Diesel & Petrol Available
                     </p>
                   </div>
                 </div>

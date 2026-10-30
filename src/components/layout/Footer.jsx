@@ -160,12 +160,14 @@ export default function Footer() {
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-6 text-xs sm:flex-row">
           <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-          <div className="flex gap-5">
-            <a href="#" className="hover:text-brand-400">Privacy Policy</a>
-            <button type="button" onClick={() => openTerms()} className="hover:text-brand-400 cursor-pointer text-left">
+          <div className="flex items-center">
+            <button
+              type="button"
+              onClick={() => openTerms()}
+              className="text-white/70 hover:text-brand-400 transition-colors cursor-pointer text-xs font-semibold"
+            >
               Terms & Conditions
             </button>
-            <a href="#" className="hover:text-brand-400">Refund Policy</a>
           </div>
         </div>
       </div>
