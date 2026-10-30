@@ -18,7 +18,7 @@ export default function BookingModal() {
 }
 
 function BookingForm({ prefill }) {
-  const { closeBooking, toast } = useUI()
+  const { closeBooking, toast, openTerms } = useUI()
   const [form, setForm] = useState({
     trip: prefill.trip ?? 'oneway',
     from: prefill.from ?? '',
@@ -402,6 +402,13 @@ function BookingForm({ prefill }) {
           </Field>
         </div>
 
+        <div className="flex items-center justify-between rounded-xl bg-surface/80 px-3.5 py-2 text-xs border border-ink-900/10">
+          <span className="text-ink-900/70 font-medium">9 Terms Apply: 350 km/day · Bike or ₹20k deposit</span>
+          <button type="button" onClick={() => openTerms()} className="font-bold text-brand-600 hover:underline cursor-pointer">
+            View 9 Terms
+          </button>
+        </div>
+
         <div className="flex flex-col gap-3 pt-1 sm:flex-row">
           <button type="submit" id="bk-whatsapp" className="btn flex-1 bg-[#25D366] py-4 text-base font-bold text-white shadow-lg shadow-[#25D366]/35 hover:-translate-y-0.5 hover:bg-[#20bd5a] transition-all">
             <WhatsAppIcon className="h-5 w-5" /> Send Details on WhatsApp
@@ -410,7 +417,7 @@ function BookingForm({ prefill }) {
             <PhoneCall className="h-4 w-4" /> Request Callback
           </button>
         </div>
-        <p className="text-center text-xs text-ink-900/45">Instant response on WhatsApp · No advance payment needed</p>
+        <p className="text-center text-xs text-ink-900/50">Instant response on WhatsApp · 24 × 7 Direct Dispatch</p>
       </form>
     </div>
   )

@@ -28,7 +28,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const active = useActiveSection(ids)
-  const { openBooking } = useUI()
+  const { openBooking, openTerms } = useUI()
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30 })
 
@@ -77,12 +77,25 @@ export default function Navbar() {
             </a>
 
             <div className="flex shrink-0 items-center gap-2.5 sm:gap-3">
-              <span className="inline-flex items-center gap-1.5 font-bold text-emerald-400">
+              <button
+                type="button"
+                onClick={() => openTerms()}
+                className="inline-flex items-center gap-1.5 font-bold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                title="View 9 Rental Terms and Conditions"
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Limit: 350 km / Day
-              </span>
+              </button>
               <span className="hidden text-white/30 sm:inline">|</span>
-              <span className="hidden font-medium text-white/60 sm:inline">Open 24 × 7</span>
+              <button
+                type="button"
+                onClick={() => openTerms()}
+                className="hidden text-white/75 hover:text-brand-300 text-[11px] font-semibold sm:inline transition-colors cursor-pointer"
+              >
+                9 Terms
+              </button>
+              <span className="hidden text-white/30 md:inline">|</span>
+              <span className="hidden font-medium text-white/60 md:inline">Open 24 × 7</span>
             </div>
           </div>
         </div>
@@ -214,10 +227,20 @@ export default function Navbar() {
                 <a href={`tel:${site.phoneRaw}`} className="flex items-center gap-3"><Phone className="h-4 w-4 text-brand-400" /> {site.phone}</a>
                 <a href={`mailto:${site.email}`} className="flex items-center gap-3"><Mail className="h-4 w-4 text-brand-400" /> {site.email}</a>
                 <p className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" /> {site.address}</p>
-                <div className="flex items-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-400">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Standard Daily Limit: 350 Km Included
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false)
+                    openTerms()
+                  }}
+                  className="flex items-center justify-between w-full rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-xs font-semibold text-emerald-400 hover:bg-emerald-500/20 transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Standard Limit: 350 Km / Day
+                  </span>
+                  <span className="text-[11px] font-bold text-brand-300 underline">9 Terms</span>
+                </button>
                 <button
                   onClick={() => {
                     setOpen(false)

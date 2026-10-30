@@ -15,6 +15,7 @@ import FAQ from './components/sections/FAQ'
 import CTA from './components/sections/CTA'
 import BookingModal from './components/booking/BookingModal'
 import EnquiryModal from './components/booking/EnquiryModal'
+import TermsModal from './components/ui/TermsModal'
 import { UIProvider } from './context/UIContext'
 
 export default function App() {
@@ -49,6 +50,7 @@ export default function App() {
         {/* Interactive Modals */}
         <BookingModal />
         <EnquiryModal />
+        <TermsModal />
       </div>
     </UIProvider>
   )

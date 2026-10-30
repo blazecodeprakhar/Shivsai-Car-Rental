@@ -1,16 +1,73 @@
+export const OFFICIAL_TERMS = [
+  {
+    id: 1,
+    title: 'Kilometer Limit & Extra Km Charges',
+    rule: 'For 24 hrs, a 350 km limit will be given. If km exceeds more than 350 kms, ₹5 per km for 5-seater and ₹7 per km for 7-seater (premium cars extra km charges are separate) charges will be applied.',
+    highlight: '350 km / 24 hrs',
+  },
+  {
+    id: 2,
+    title: 'Overtime Policy',
+    rule: 'If time exceeds more than 24 hrs, then ₹150 per hr charges will be applied.',
+    highlight: '₹150 / hr overtime',
+  },
+  {
+    id: 3,
+    title: 'Security Deposit',
+    rule: 'For deposit: Customer’s bike / ₹20,000.',
+    highlight: 'Bike or ₹20,000',
+  },
+  {
+    id: 4,
+    title: 'Advance Payment',
+    rule: 'Advance: Non-Refundable.',
+    highlight: 'Non-Refundable',
+  },
+  {
+    id: 5,
+    title: 'Insurance Limitations',
+    rule: "Dents, long scratches, breakage, etc. can't be claimed in insurance.",
+    highlight: 'Customer Liability',
+  },
+  {
+    id: 6,
+    title: 'Zero Tolerance Drinking & Driving',
+    rule: 'Don’t drink and drive. If you do, then you are all responsible for damage.',
+    highlight: 'Strict Zero Tolerance',
+  },
+  {
+    id: 7,
+    title: 'Extra Fuel Policy',
+    rule: 'Extra fuel: Non-Refundable.',
+    highlight: 'Non-Refundable',
+  },
+  {
+    id: 8,
+    title: 'Fuel Level Maintenance',
+    rule: 'Maintain initial level of fuel; otherwise, charges may apply.',
+    highlight: 'Same Level on Return',
+  },
+  {
+    id: 9,
+    title: 'Mandatory Original Documents',
+    rule: 'Please carry ORIGINAL Aadhaar, PAN and Driving License at the time of pickup.',
+    highlight: 'Original Aadhaar, PAN, DL',
+  },
+]
+
 export const FLEET_TERMS = {
   standardLimit: '24 hrs / 350 km limit included',
   premiumLimit: '24 hrs / 350 km limit included across all vehicles',
   extraKm5Seater: '₹5 / km for 5-seater cars',
   extraKm7Seater: '₹7 / km for 7-seater cars',
   extraKmPremium: '₹7 to ₹15 / km for premium cars',
-  extraTime: '₹150 / hr after 24 hrs',
-  deposit: "Customer's bike / two-wheeler OR ₹10,000 security deposit",
-  advance: 'Advance is non-refundable',
-  insurance: 'Dents, long scratches, and breakages cannot be claimed in insurance',
-  zeroTolerance: 'Strictly zero drink-and-drive policy; customer is fully responsible for damages',
-  fuelPolicy: 'Maintain initial level of fuel (extra fuel is non-refundable)',
-  documents: 'Original Aadhaar, PAN card, and Driving Licence required at pickup',
+  extraTime: '₹150 per hr charges if time exceeds 24 hrs',
+  deposit: 'Customer’s bike / ₹20,000',
+  advance: 'Advance: Non-Refundable',
+  insurance: "Dents, long scratches, breakage, etc. can't be claimed in insurance",
+  zeroTolerance: 'Don’t drink and drive. If you do, then you are all responsible for damage',
+  fuelPolicy: 'Maintain initial level of fuel; otherwise, charges may apply (Extra fuel: Non-Refundable)',
+  documents: 'Please carry ORIGINAL Aadhaar, PAN and Driving License at the time of pickup',
 }
 
 export const FLEET_FILTERS = ['All', 'Hatchback', 'Sedan', 'SUV', '7 Seater']

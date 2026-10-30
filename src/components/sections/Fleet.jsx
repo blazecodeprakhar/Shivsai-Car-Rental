@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { SectionHeading } from '../ui/Motion'
-import { FLEET, FLEET_FILTERS, FLEET_TERMS } from '../../data/content'
+import { FLEET, FLEET_FILTERS, FLEET_TERMS, OFFICIAL_TERMS } from '../../data/content'
 import { useUI } from '../../context/UIContext'
 import { site, whatsappLink } from '../../data/site'
 import { WhatsAppIcon } from '../ui/BrandIcons'
@@ -105,29 +105,52 @@ export default function Fleet() {
         </motion.div>
 
         {/* Global Terms Summary Strip */}
-        <div className="mt-16 rounded-3xl border border-ink-900/10 bg-surface/70 p-6 sm:p-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div id="terms" className="mt-16 rounded-3xl border border-ink-900/10 bg-surface/70 p-6 sm:p-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between border-b border-ink-900/10 pb-6">
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-xs font-bold tracking-wider text-brand-600 uppercase">
                 <FileText className="h-4 w-4" />
-                Standard Rental Terms
+                Terms and Conditions
               </div>
-              <h3 className="text-lg font-bold text-ink-900 sm:text-xl">Simple, honest, and transparent guidelines</h3>
+              <h3 className="text-xl font-bold text-ink-900 sm:text-2xl">
+                9 Standard Guidelines for Shivsai Rentals
+              </h3>
+              <p className="text-xs text-ink-900/60 max-w-xl">
+                Clear, transparent, and fair policies for self-drive cars and taxi bookings.
+              </p>
             </div>
-            <div className="grid gap-3 sm:grid-cols-3 text-xs text-ink-900/75">
-              <div className="rounded-xl bg-white p-3 border border-ink-900/5 shadow-xs">
-                <p className="font-bold text-ink-900">⏱️ 24 Hrs / 350 Km</p>
-                <p className="mt-0.5 text-ink-900/60">350 km daily limit included with all cars. ₹150/hr overtime.</p>
+            <button
+              type="button"
+              onClick={() => setTermsModalCar(FLEET[0])}
+              className="btn btn-primary py-2.5 px-5 text-xs font-bold self-start lg:self-auto shadow-md shadow-brand-500/20"
+            >
+              <FileText className="h-4 w-4" /> View Full 9 Terms in Modal
+            </button>
+          </div>
+
+          {/* 9 Terms Grid */}
+          <div className="mt-6 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+            {OFFICIAL_TERMS.map((t) => (
+              <div
+                key={t.id}
+                className="group flex gap-3.5 rounded-2xl bg-white p-4 border border-ink-900/8 shadow-xs hover:border-brand-500/40 hover:shadow-md transition-all duration-300"
+              >
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-brand-500/15 text-xs font-black text-brand-700 transition-colors group-hover:bg-brand-500 group-hover:text-ink-950">
+                  {t.id}
+                </span>
+                <div className="space-y-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs font-bold text-ink-950 truncate">{t.title}</p>
+                    <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-900 shrink-0">
+                      {t.highlight}
+                    </span>
+                  </div>
+                  <p className="text-xs leading-relaxed text-ink-900/75">
+                    {t.rule}
+                  </p>
+                </div>
               </div>
-              <div className="rounded-xl bg-white p-3 border border-ink-900/5 shadow-xs">
-                <p className="font-bold text-ink-900">🏍️ Flexible Deposit</p>
-                <p className="mt-0.5 text-ink-900/60">Deposit customer's 2-wheeler or ₹10,000 refundable deposit.</p>
-              </div>
-              <div className="rounded-xl bg-white p-3 border border-ink-900/5 shadow-xs">
-                <p className="font-bold text-ink-900">📄 Required Documents</p>
-                <p className="mt-0.5 text-ink-900/60">Original Aadhaar card, PAN card, and Driving Licence at pickup.</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -446,63 +469,70 @@ function PhotoModal({ car, onClose }) {
 
 function TermsModal({ car, onClose, onBook }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl border border-ink-900/10">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl border border-ink-900/10">
         <div className="bg-ink-950 px-6 py-5 text-white">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-brand-400 uppercase tracking-widest">Rental Policy</span>
+            <div className="flex items-center gap-2">
+              <span className="rounded-md bg-brand-400/20 px-2.5 py-0.5 text-xs font-bold text-brand-300 uppercase tracking-wider">
+                Terms and Conditions
+              </span>
+              <span className="text-xs text-white/50">· 9 Official Rules</span>
+            </div>
             <button
               type="button"
               onClick={onClose}
               className="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 transition-colors"
+              aria-label="Close"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
-          <h4 className="mt-1 text-xl font-bold">{car.name}</h4>
-          <p className="text-xs text-white/60">Rate: {car.priceDisplay} · {car.kmLimit}</p>
+          <h4 className="mt-2 text-xl font-bold sm:text-2xl">
+            {car ? `${car.name} — Rental Policy` : 'Shivsai Car Rental — Terms and Conditions'}
+          </h4>
+          {car && (
+            <p className="mt-1 text-xs text-brand-300 font-medium">
+              Rate: {car.priceDisplay} · Included Limit: {car.kmLimit}
+            </p>
+          )}
         </div>
 
-        <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-          <div className="space-y-2.5 text-xs sm:text-sm text-ink-900/80">
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Included Kilometer Limit:</strong> {car.kmLimit}. Extra running charged at {car.extraKm}.</span>
+        <div className="p-6 space-y-3 max-h-[70vh] overflow-y-auto">
+          {OFFICIAL_TERMS.map((t) => (
+            <div
+              key={t.id}
+              className="flex items-start gap-3 rounded-2xl border border-ink-900/8 bg-surface/60 p-3.5 transition-all hover:bg-white hover:border-brand-500/30"
+            >
+              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-500 text-ink-950 text-xs font-black shadow-xs">
+                {t.id}
+              </span>
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-bold text-ink-950">{t.title}</p>
+                  <span className="rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-900 shrink-0">
+                    {t.highlight}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-[13px] leading-relaxed text-ink-900/85 font-medium">
+                  {t.rule}
+                </p>
+              </div>
             </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Overtime Charge:</strong> ₹150 per hour if trip exceeds 24 hours.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Security Deposit:</strong> Customer's bike / 2-wheeler OR ₹10,000 cash/online deposit.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Documents Required:</strong> Please carry original Aadhaar card, PAN card, and Driving Licence at the time of pickup.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Fuel Policy:</strong> Maintain initial level of fuel. Extra fuel left is non-refundable.</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-              <span><strong>Damage & Safety:</strong> Strict zero drink and drive policy. Customer is fully responsible for any damages.</span>
-            </div>
-          </div>
+          ))}
 
-          <div className="pt-3 border-t border-ink-900/10 flex items-center gap-3">
+          <div className="pt-4 border-t border-ink-900/10 flex items-center gap-3">
             <button
               type="button"
               onClick={onBook}
-              className="btn btn-primary flex-1 py-3 text-xs font-bold sm:text-sm"
+              className="btn btn-primary flex-1 py-3.5 text-xs font-bold sm:text-sm"
             >
-              Continue to Book
+              {car ? `Continue to Book ${car.name}` : 'Book a Ride'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="btn btn-outline py-3 text-xs font-bold sm:text-sm"
+              className="btn btn-outline py-3.5 px-6 text-xs font-bold sm:text-sm"
             >
               Close
             </button>

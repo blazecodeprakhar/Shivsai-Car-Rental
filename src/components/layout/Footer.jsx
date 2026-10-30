@@ -16,7 +16,7 @@ const socials = [
 ]
 
 export default function Footer() {
-  const { toast, openBooking } = useUI()
+  const { toast, openBooking, openTerms } = useUI()
   const [email, setEmail] = useState('')
 
   const subscribe = (e) => {
@@ -162,7 +162,9 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
           <div className="flex gap-5">
             <a href="#" className="hover:text-brand-400">Privacy Policy</a>
-            <a href="#" className="hover:text-brand-400">Terms & Conditions</a>
+            <button type="button" onClick={() => openTerms()} className="hover:text-brand-400 cursor-pointer text-left">
+              Terms & Conditions
+            </button>
             <a href="#" className="hover:text-brand-400">Refund Policy</a>
           </div>
         </div>

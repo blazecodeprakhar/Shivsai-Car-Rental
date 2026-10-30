@@ -108,7 +108,7 @@ export const SERVICES = [
 ]
 
 /* ─────────────── Fleet ─────────────── */
-export { FLEET, FLEET_FILTERS, FLEET_TERMS } from './fleetData'
+export { FLEET, FLEET_FILTERS, FLEET_TERMS, OFFICIAL_TERMS } from './fleetData'
 
 /* ─────────────── Steps ─────────────── */
 export const STEPS = [
@@ -193,11 +193,11 @@ export const TESTIMONIALS = [
 
 /* ─────────────── FAQ ─────────────── */
 export const FAQS = [
-  { q: 'How do I book a car?', a: 'Choose your trip, enter details, and tap WhatsApp to confirm instantly.' },
-  { q: 'Are tolls and taxes included?', a: 'One-way fares are all-inclusive. Round trip tolls and parking follow actual toll receipts.' },
-  { q: 'Can I cancel or reschedule my ride?', a: 'Free cancellation up to 6 hours before pickup. Reschedule anytime.' },
-  { q: 'What payment methods do you accept?', a: 'UPI, credit/debit cards, net banking, or cash upon trip completion.' },
-  { q: 'Are your drivers verified?', a: 'Yes, all drivers undergo police background checks and identity verification.' },
+  { q: 'What is the daily kilometer limit & extra km rate?', a: 'For 24 hrs, a 350 km limit will be given. If km exceeds more than 350 kms, ₹5 per km for 5-seater and ₹7 per km for 7-seater (premium cars extra km charges are separate) charges will be applied.' },
+  { q: 'What is the security deposit and what documents do I need?', a: 'For deposit: Customer’s bike / ₹20,000. Please carry ORIGINAL Aadhaar, PAN and Driving License at the time of pickup.' },
+  { q: 'What happens if my rental time exceeds 24 hours?', a: 'If time exceeds more than 24 hrs, then ₹150 per hr charges will be applied.' },
+  { q: 'What is the advance and fuel policy?', a: 'Advance is Non-Refundable. Extra fuel is also Non-Refundable. Please maintain initial level of fuel, otherwise charges may apply.' },
+  { q: 'What are the damage, insurance, and safety policies?', a: 'Dents, long scratches, breakage, etc. cannot be claimed in insurance. Strictly do not drink and drive — if you do, then you are all responsible for damage.' },
   { q: 'Do you provide self-drive cars?', a: 'Yes! We provide both self-drive car rentals with a generous 350 km daily limit included, as well as chauffeur-driven cabs.' },
 ]
 
