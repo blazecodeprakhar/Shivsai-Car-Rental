@@ -60,7 +60,7 @@ export function Counter({ to, decimals = 0, suffix = '', duration = 2 }) {
   }, [inView, to, duration])
   return (
     <span ref={ref}>
-      {val.toFixed(decimals)}
+      {decimals > 0 ? val.toFixed(decimals) : Math.round(val).toLocaleString('en-IN')}
       {suffix}
     </span>
   )
