@@ -131,11 +131,11 @@ export const FLEET = [
       },
       {
         type: 'Petrol',
-        label: 'Normal Petrol Variant',
+        label: 'Petrol Variant',
         badge: 'Smooth 4x4',
         price: 4000,
         priceDisplay: '₹4,000 / day',
-        description: 'Peppy refined petrol drive for all terrains',
+        description: 'Refined petrol drive with smooth power delivery',
       },
     ],
   },
