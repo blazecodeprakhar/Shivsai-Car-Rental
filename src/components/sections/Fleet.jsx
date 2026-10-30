@@ -29,14 +29,17 @@ export default function Fleet() {
 
   const cars = filter === 'All' ? FLEET : FLEET.filter((c) => c.category === filter)
 
-  const openWhatsAppForCar = (car) => {
+  const openWhatsAppForCar = (car, fuelChoice) => {
+    const activeFuel = car.availableFuels?.find((f) => f.type === fuelChoice) || car.availableFuels?.[0]
+    const variantName = activeFuel ? activeFuel.label : car.variant
+    const price = activeFuel ? activeFuel.priceDisplay : car.priceDisplay
     const text = [
       `*Car Booking Inquiry - ${site.name}*`,
       `───────────────────────`,
-      `🚗 *Vehicle:* ${car.name} (${car.variant})`,
-      `💰 *Rate:* ${car.priceDisplay}`,
+      `🚗 *Vehicle:* ${car.name} (${variantName})`,
+      `💰 *Rate:* ${price}`,
       `🛣️ *Limit:* ${car.kmLimit}`,
-      `⛽ *Variant:* ${car.variant}`,
+      `⛽ *Variant:* ${activeFuel ? activeFuel.type : car.variant}`,
       `👥 *Seating:* ${car.seats} Seater`,
       `───────────────────────`,
       `Hello Shivsai Car Rental, I want to book this car. Please confirm availability.`,
@@ -95,8 +98,8 @@ export default function Fleet() {
               <CarCard
                 key={c.id}
                 car={c}
-                onSelect={() => openBooking({ car: c.id })}
-                onWhatsApp={() => openWhatsAppForCar(c)}
+                onSelect={(fuel) => openBooking({ car: c.id, fuelType: fuel })}
+                onWhatsApp={(fuel) => openWhatsAppForCar(c, fuel)}
                 onViewPhotos={() => setActiveCarPhotos(c)}
                 onViewTerms={() => setTermsModalCar(c)}
               />
@@ -151,6 +154,13 @@ export default function Fleet() {
 
 function CarCard({ car, onSelect, onWhatsApp, onViewPhotos, onViewTerms }) {
   const [selectedPhotoIdx, setSelectedPhotoIdx] = useState(0)
+  const [selectedFuel, setSelectedFuel] = useState(car.availableFuels ? car.availableFuels[0].type : null)
+
+  const activeFuel = car.availableFuels
+    ? car.availableFuels.find((f) => f.type === selectedFuel) || car.availableFuels[0]
+    : null
+  const displayPrice = activeFuel ? activeFuel.priceDisplay : car.priceDisplay
+  const displayVariant = activeFuel ? activeFuel.label : car.variant
 
   const nextPhoto = (e) => {
     e?.stopPropagation()
@@ -273,13 +283,13 @@ function CarCard({ car, onSelect, onWhatsApp, onViewPhotos, onViewTerms }) {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-bold text-ink-950 leading-snug sm:text-xl">{car.name}</h3>
-              <span className="rounded-md bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-800 border border-amber-500/20">{car.variant}</span>
+              <span className="rounded-md bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-800 border border-amber-500/20">{displayVariant}</span>
             </div>
             <p className="mt-0.5 text-xs text-ink-900/55 line-clamp-1">{car.tagline}</p>
           </div>
           <div className="text-right shrink-0">
-            <p className="font-display text-2xl font-black text-ink-950">{car.priceDisplay.split(' ')[0]}</p>
-            <p className="text-[11px] font-semibold text-brand-600">{car.priceDisplay.split(' ').slice(1).join(' ')}</p>
+            <p className="font-display text-2xl font-black text-ink-950">{displayPrice.split(' ')[0]}</p>
+            <p className="text-[11px] font-semibold text-brand-600">{displayPrice.split(' ').slice(1).join(' ')}</p>
           </div>
         </div>
 
@@ -300,7 +310,7 @@ function CarCard({ car, onSelect, onWhatsApp, onViewPhotos, onViewTerms }) {
           </li>
           <li className="flex flex-col items-center gap-1">
             <Fuel className="h-4 w-4 text-brand-600" />
-            <span className="text-[11px] font-semibold text-ink-900">{car.fuel.split(' ')[0]}</span>
+            <span className="text-[11px] font-semibold text-ink-900">{activeFuel ? activeFuel.type : car.fuel.split(' ')[0]}</span>
           </li>
           <li className="flex flex-col items-center gap-1">
             <Snowflake className="h-4 w-4 text-brand-600" />
@@ -312,11 +322,64 @@ function CarCard({ car, onSelect, onWhatsApp, onViewPhotos, onViewTerms }) {
           </li>
         </ul>
 
+        {/* If availableFuels exists (Mahindra Thar), show Handwritten Sticky Note & Change Fuel Type */}
+        {car.availableFuels && (
+          <div className="mt-3.5 space-y-2.5">
+            {/* Handwritten Sticky Note */}
+            <div className="relative rounded-xl border border-[#fef08a] bg-[#fff9c4] p-3 text-ink-950 shadow-xs rotate-[-0.75deg] transition-transform hover:rotate-0">
+              <div className="absolute -top-2 left-6 h-3.5 w-14 rounded-xs border border-black/5 bg-white/80 shadow-2xs backdrop-blur-xs rotate-[2deg]" />
+              <div className="flex items-start gap-2 pt-0.5">
+                <span className="text-base select-none leading-none">📌</span>
+                <p className="font-['Caveat',cursive] text-base font-bold leading-tight text-[#172554] sm:text-lg">
+                  "You can book a Diesel variant of this car or a Normal Petrol variant!"
+                </p>
+              </div>
+            </div>
+
+            {/* Change Fuel Type pills */}
+            <div className="rounded-xl border border-ink-900/10 bg-surface/90 p-2.5">
+              <div className="mb-1.5 flex items-center justify-between px-0.5">
+                <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-ink-950">
+                  <Fuel className="h-3 w-3 text-brand-600" />
+                  Change Fuel Type
+                </span>
+                <span className="text-[10px] font-semibold text-brand-700">
+                  Choose Variant
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                {car.availableFuels.map((f) => {
+                  const isSelected = (selectedFuel || 'Diesel') === f.type
+                  return (
+                    <button
+                      key={f.type}
+                      type="button"
+                      onClick={() => setSelectedFuel(f.type)}
+                      className={`flex flex-col items-center justify-center rounded-lg border py-1.5 px-2 text-center transition-all ${
+                        isSelected
+                          ? 'border-ink-950 bg-ink-950 text-white shadow-xs'
+                          : 'border-ink-900/10 bg-white text-ink-900 hover:border-ink-900/30'
+                      }`}
+                    >
+                      <span className="text-xs font-bold leading-tight">
+                        {f.type}
+                      </span>
+                      <span className={`text-[10px] font-semibold ${isSelected ? 'text-brand-300' : 'text-brand-600'}`}>
+                        {f.priceDisplay.split(' ')[0]}
+                      </span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Actions */}
         <div className="mt-5 flex items-center gap-2">
           <button
             type="button"
-            onClick={onSelect}
+            onClick={() => onSelect?.(selectedFuel)}
             id={`book-btn-${car.id}`}
             className="btn btn-dark flex-1 py-3 text-xs font-bold sm:text-sm hover:bg-linear-to-r hover:from-brand-500 hover:to-flame-500 hover:text-ink-950 transition-all shadow-xs"
           >
@@ -326,7 +389,7 @@ function CarCard({ car, onSelect, onWhatsApp, onViewPhotos, onViewTerms }) {
 
           <button
             type="button"
-            onClick={onWhatsApp}
+            onClick={() => onWhatsApp?.(selectedFuel)}
             title="Book directly on WhatsApp"
             aria-label="Book on WhatsApp"
             className="grid h-10 w-10 place-items-center rounded-xl bg-[#25D366] text-white shadow-xs hover:bg-[#20bd5a] transition-all hover:scale-105"

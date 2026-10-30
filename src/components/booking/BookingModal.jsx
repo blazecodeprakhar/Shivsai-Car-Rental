@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { Calendar, User, Phone, MapPin, Navigation, Users, Check, PhoneCall, Car, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Calendar, User, Phone, MapPin, Navigation, Users, Check, PhoneCall, Car, ChevronLeft, ChevronRight, Fuel } from 'lucide-react'
 import { useState, useRef } from 'react'
 import Modal from '../ui/Modal'
 import { Field, CityInput, nowLocal, formatDateTime } from './Fields'
@@ -27,6 +27,7 @@ function BookingForm({ prefill }) {
     returnDate: prefill.returnDate ?? '',
     pkg: prefill.pkg ?? LOCAL_PACKAGES[2],
     car: prefill.car ?? FLEET[0]?.id ?? 'swift-diesel',
+    fuelType: prefill.fuelType ?? 'Diesel',
     name: '',
     phone: '',
   })
@@ -74,6 +75,11 @@ function BookingForm({ prefill }) {
   const needsDrop = ['oneway', 'round', 'road'].includes(form.trip)
   const tripLabel = TRIP_TYPES.find((t) => t.id === form.trip)?.label
   const car = FLEET.find((c) => c.id === form.car) || FLEET[0]
+  const activeFuel = car?.availableFuels
+    ? car.availableFuels.find((f) => f.type === form.fuelType) || car.availableFuels[0]
+    : null
+  const currentPriceDisplay = activeFuel ? activeFuel.priceDisplay : car?.priceDisplay
+  const currentVariantDisplay = activeFuel ? activeFuel.label : car?.variant
 
   const validate = () => {
     const e = {}
@@ -96,7 +102,8 @@ function BookingForm({ prefill }) {
       form.trip === 'local' && `⏱️ *Package:* ${form.pkg}`,
       `📅 *Date & Time:* ${formatDateTime(form.date)}`,
       form.trip === 'round' && form.returnDate && `🔄 *Return Date:* ${formatDateTime(form.returnDate)}`,
-      `🚘 *Vehicle:* ${car?.name} (${car?.variant}) - ${car?.priceDisplay}`,
+      `🚘 *Vehicle:* ${car?.name} (${currentVariantDisplay}) - ${currentPriceDisplay}`,
+      activeFuel && `⛽ *Fuel Type Selected:* ${activeFuel.type}`,
       car?.kmLimit && `🛣️ *Limit / Allowance:* ${car?.kmLimit}`,
       `───────────────────────`,
       `👤 *Customer:* ${form.name}`,
@@ -270,6 +277,72 @@ function BookingForm({ prefill }) {
               })}
             </div>
           </div>
+
+          {/* If the selected car has fuel options (Mahindra Thar), show Handwritten Note & Change Fuel Type */}
+          {car?.availableFuels && (
+            <div className="mt-3.5 space-y-3">
+              {/* Authentic Handwritten Sticky Note */}
+              <div className="relative mx-auto rounded-2xl border border-[#fef08a] bg-[#fff9c4] p-4 text-ink-950 shadow-md rotate-[-0.75deg] transition-all hover:rotate-0">
+                {/* Frosted Scotch Tape */}
+                <div className="absolute -top-2.5 left-1/2 h-5 w-24 -translate-x-1/2 rounded-xs border border-black/5 bg-white/80 shadow-xs backdrop-blur-xs rotate-[1.5deg]" />
+
+                <div className="flex items-start gap-3 pt-1">
+                  <span className="text-2xl leading-none select-none">📌</span>
+                  <div className="space-y-1">
+                    <p className="font-['Caveat',cursive] text-xl font-bold leading-snug tracking-wide text-[#172554] sm:text-2xl">
+                      "Note: You can book a Diesel variant of this car or a Normal Petrol variant of this car. Please select your fuel type below!"
+                    </p>
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-amber-900/80 font-sans">
+                      ✍️ Handwritten Note · Both Options Available
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Change Fuel Type Option Box */}
+              <div className="rounded-2xl border border-ink-900/10 bg-surface/80 p-3.5 sm:p-4">
+                <div className="mb-2.5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Fuel className="h-4 w-4 text-brand-600" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-ink-950">
+                      Change Fuel Type
+                    </span>
+                  </div>
+                  <span className="rounded-full bg-brand-100/80 px-2.5 py-0.5 text-[11px] font-semibold text-brand-800">
+                    Petrol or Diesel Available
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {car.availableFuels.map((f) => {
+                    const isSelected = (form.fuelType || 'Diesel') === f.type
+                    return (
+                      <button
+                        type="button"
+                        key={f.type}
+                        onClick={() => set('fuelType')(f.type)}
+                        className={`flex flex-col items-start rounded-xl border-2 p-3 text-left transition-all ${
+                          isSelected
+                            ? 'border-brand-500 bg-brand-50/80 shadow-sm'
+                            : 'border-ink-900/10 bg-white hover:border-ink-900/25'
+                        }`}
+                      >
+                        <div className="flex w-full items-center justify-between">
+                          <span className="text-sm font-bold text-ink-950">{f.label}</span>
+                          {isSelected && <Check className="h-4 w-4 text-brand-600" strokeWidth={3} />}
+                        </div>
+                        <span className="mt-1 font-display text-base font-extrabold text-ink-950">
+                          {f.priceDisplay}
+                        </span>
+                        <span className="mt-0.5 text-[11px] leading-tight text-ink-900/60">
+                          {f.description}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
