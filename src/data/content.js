@@ -30,10 +30,10 @@ export const NAV_LINKS = [
 
 /* ─────────────── Booking trip types ─────────────── */
 export const TRIP_TYPES = [
-  { id: 'local', label: 'Local Rental', short: 'Rentals', icon: Clock },
-  { id: 'oneway', label: 'One Way', short: 'One Way', icon: ArrowRight },
-  { id: 'round', label: 'Round Trip', short: 'Round Trip', icon: Repeat },
   { id: 'road', label: 'Road Trip', short: 'Road Trip', icon: Mountain },
+  { id: 'local', label: 'Local Rental', short: 'Rentals', icon: Clock },
+  { id: 'round', label: 'Round Trip', short: 'Round Trip', icon: Repeat },
+  { id: 'oneway', label: 'One Way', short: 'One Way', icon: ArrowRight },
   { id: 'airport', label: 'Airport Transfer', short: 'Airport', icon: Plane },
 ]
 

@@ -19,7 +19,7 @@ const initial = () => ({
 })
 
 export default function BookingWidget() {
-  const [trip, setTrip] = useState('local')
+  const [trip, setTrip] = useState('road')
   const [form, setForm] = useState(initial)
   const [errors, setErrors] = useState({})
   const { openBooking } = useUI()
